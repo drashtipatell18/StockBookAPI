@@ -147,26 +147,7 @@ class EmployeeController extends Controller
         ], 401);
     }
 
-    public function editProfile($id)
-    {
-        if (Auth::check()) {
-            $userid = Auth::user()->id;
-            $employe = Auth::user()->employee;
-            if ($employe) {
-                $id = $employe->id;
-                $employee = Employee::find($id);
-
-                return response()->json([
-                    'success' => true,
-                    'data' => compact('employee', 'id')
-                ], 200);
-            }
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Not authenticated or no employee profile'
-        ], 401);
-    }
+    
 
     public function Profileupdate(Request $request, $id)
     {
