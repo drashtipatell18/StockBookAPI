@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,10 @@ Route::get('/holiday', [HolidayController::class, 'Holiday'])->name('holiday');
 Route::post('/holiday/insert',[HolidayController::class,'holidayInsert'])->name('insert.holiday');
 Route::post('/holiday/update/{id}', [HolidayController::class, 'holidayUpdate'])->name('update.holiday');
 Route::get('/holiday/destroy/{id}',[HolidayController::class,'holidayDestroy'])->name('destroy.holiday');
+
+// Category
+
+Route::get('/category', [CategoryController::class, 'category'])->name('category');
+Route::post('/category/store', [CategoryController::class, 'storeCategory'])->name('category.store');
+Route::post('/category/update/{id}', [CategoryController::class, 'categoryUpdate'])->name('update.category');
+Route::get('/category/destroy/{id}',[CategoryController::class,'categoryDestroy'])->name('destroy.category');
