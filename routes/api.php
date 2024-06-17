@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HolidayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +32,13 @@ Route::get('/role', [RoleController::class, 'role'])->name('role');
 Route::post('/role/store', [RoleController::class, 'roleStore'])->name('role.store');
 Route::post('/role/update/{id}', [RoleController::class, 'roleUpdate'])->name('role.update');
 Route::delete('/role/delete/{id}', [RoleController::class, 'roleDestroy'])->name('role.destroy');
+
+Route::get('/employee', [EmployeeController::class, 'employees'])->name('employee');
+Route::post('/employee/insert',[EmployeeController::class,'employeeInsert'])->name('insert.employee');
+Route::post('/employee/update/{id}', [EmployeeController::class, 'employeeUpdate'])->name('update.employee');
+Route::get('/employee/destroy/{id}',[EmployeeController::class,'employeeDestroy'])->name('destroy.employee');
+
+Route::get('/holiday', [HolidayController::class, 'Holiday'])->name('holiday');
+Route::post('/holiday/insert',[HolidayController::class,'holidayInsert'])->name('insert.holiday');
+Route::post('/holiday/update/{id}', [HolidayController::class, 'holidayUpdate'])->name('update.holiday');
+Route::get('/holiday/destroy/{id}',[HolidayController::class,'holidayDestroy'])->name('destroy.holiday');
