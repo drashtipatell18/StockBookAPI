@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SalesOrderController extends Controller
 {
@@ -15,7 +16,7 @@ class SalesOrderController extends Controller
 
     public function salesorderInsert(Request $request)
     {
-        $request->validate([
+        $validateRequest = Validator::make($request->all(), [
             'stall_id'    => 'required|exists:stalls,id',
             'location'    => 'required',
             'book_id'     => 'required|exists:books,id',
@@ -23,6 +24,15 @@ class SalesOrderController extends Controller
             'quantity'    => 'required|integer',
             'total_price' => 'required|numeric',
         ]);
+
+        if($validateRequest->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails.',
+                'errors' => $validateRequest->errors()
+            ], 403);
+        }
 
         $salesorder = SalesOrder::create([
             'stall_id'    => $request->input('stall_id'),
@@ -33,12 +43,12 @@ class SalesOrderController extends Controller
             'total_price' => $request->input('total_price'),
         ]);
 
-        return response()->json(['message' => 'Sales Order added successfully!', 'salesorder' => $salesorder], 201);
+        return response()->json(['message' => 'Sales Order added successfully!', 'salesorder' => $salesorder], 200);
     }
 
     public function salesorderUpdate(Request $request, $id)
     {
-        $request->validate([
+        $validateRequest = Validator::make($request->all(), [
             'stall_id'    => 'required|exists:stalls,id',
             'location'    => 'required',
             'book_id'     => 'required|exists:books,id',
@@ -46,6 +56,15 @@ class SalesOrderController extends Controller
             'quantity'    => 'required|integer',
             'total_price' => 'required|numeric',
         ]);
+
+        if($validateRequest->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails.',
+                'errors' => $validateRequest->errors()
+            ], 403);
+        }
 
         $salesorder = SalesOrder::find($id);
 

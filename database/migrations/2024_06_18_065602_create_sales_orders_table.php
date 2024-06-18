@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('sales_orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('book_id');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+            $table->unsignedBigInteger('stall_id');
+            $table->foreign('stall_id')->references('id')->on('stalls')->onDelete('cascade');
+            $table->string('location');
+            $table->decimal('sales_price', 10, 2)->nullable();
+            $table->string('quantity');
+            $table->decimal('total_price', 10, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
