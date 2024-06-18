@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->string('accountno')->nullable();
+            $table->string('bankname')->nullable();
+            $table->string('ifsccode')->nullable();
+            $table->date('payment_date')->nullable();
+            $table->string('salary_type')->nullable();
+            $table->decimal('total_price', 10,2)->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
