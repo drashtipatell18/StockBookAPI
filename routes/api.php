@@ -7,6 +7,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\StallController;
+use App\Http\Controllers\StockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,3 +52,16 @@ Route::get('/category', [CategoryController::class, 'category'])->name('category
 Route::post('/category/store', [CategoryController::class, 'storeCategory'])->name('category.store');
 Route::post('/category/update/{id}', [CategoryController::class, 'categoryUpdate'])->name('update.category');
 Route::get('/category/destroy/{id}',[CategoryController::class,'categoryDestroy'])->name('destroy.category');
+
+// Stall
+
+Route::get('/stall', [StallController::class, 'stall'])->name('stall');
+Route::post('/stall/store', [StallController::class, 'storeStall'])->name('stall.store');
+Route::post('/stall/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
+Route::get('/stall/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
+
+//Stock
+Route::get('/stock', [StockController::class, 'stock'])->name('stock');
+Route::post('/stock/store', [StockController::class, 'stockStore'])->name('stock.store');
+Route::post('/stock/update/{id}', [StockController::class, 'stockUpdate'])->name('stock.update');
+Route::delete('/stock/delete/{id}', [StockController::class, 'stockDestroy'])->name('stock.destroy');
