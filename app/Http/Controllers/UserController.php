@@ -14,6 +14,38 @@ class UserController extends Controller
         $users = User::with('role')->get();
         return response()->json($users, 200);
     }
+
+    public function login(Request $request)
+    {
+        $validateUser = Validator::make($request->all(), [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        if($validateUser->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails',
+                'error' => $validateUser->errors()
+            ], 401);
+        }
+
+        if(!Auth::attempt($request->only(['email', 'password'])))
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Credential does not found in our records',
+            ], 401);
+        }
+        $user = User::where('email', $request->input('email'))->first();
+        $token = $user->createToken($user->role_id)->plainTextToken;
+        return response()->json([
+            'name' => $user->name,
+            'access_token' => $token,
+            'role' => Role::find($user->role_id)->role_name
+        ]);
+    }
     
     public function userInsert(Request $request ){
         $validator = Validator::make($request->all(), [

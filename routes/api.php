@@ -29,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Login
+Route::post('/login', [UserController::class, 'login']);
+
+
 Route::get('/user', [UserController::class, 'users'])->name('user');
 Route::post('/user/insert',[UserController::class,'userInsert'])->name('insert.user');
 Route::post('/user/update/{id}', [UserController::class, 'userUpdate'])->name('update.user');
@@ -51,14 +55,12 @@ Route::post('/holiday/update/{id}', [HolidayController::class, 'holidayUpdate'])
 Route::get('/holiday/destroy/{id}',[HolidayController::class,'holidayDestroy'])->name('destroy.holiday');
 
 // Category
-
 Route::get('/category', [CategoryController::class, 'category'])->name('category');
 Route::post('/category/store', [CategoryController::class, 'storeCategory'])->name('category.store');
 Route::post('/category/update/{id}', [CategoryController::class, 'categoryUpdate'])->name('update.category');
 Route::get('/category/destroy/{id}',[CategoryController::class,'categoryDestroy'])->name('destroy.category');
 
 // Stall
-
 Route::get('/stall', [StallController::class, 'stall'])->name('stall');
 Route::post('/stall/store', [StallController::class, 'storeStall'])->name('stall.store');
 Route::post('/stall/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
@@ -71,29 +73,25 @@ Route::post('/stock/update/{id}', [StockController::class, 'stockUpdate'])->name
 Route::delete('/stock/delete/{id}', [StockController::class, 'stockDestroy'])->name('stock.destroy');
 
 //Scrap
-
 Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
 Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
 Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
 Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
 
- //Payment
+//Payment
+Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
+Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
+Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
+Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
 
- Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
- Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
- Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
- Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
+//Book
+Route::get('/book', [BookController::class, 'book'])->name('book');
+Route::post('/book/insert',[BookController::class,'bookInsert'])->name('insert.book');
+Route::post('/book/update/{id}', [BookController::class, 'bookUpdate'])->name('update.book');
+Route::get('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
 
- //Book
-
- Route::get('/book', [BookController::class, 'book'])->name('book');
- Route::post('/book/insert',[BookController::class,'bookInsert'])->name('insert.book');
- Route::post('/book/update/{id}', [BookController::class, 'bookUpdate'])->name('update.book');
- Route::get('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
-
-   //Sales Order
-
-   Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
-   Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
-   Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
-   Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
+//Sales Order
+Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
+Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
+Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
+Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
