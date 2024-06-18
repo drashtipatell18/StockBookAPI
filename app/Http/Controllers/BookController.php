@@ -26,6 +26,7 @@ class BookController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
+                'message' => "Validation fails.",
                 'errors' => $validator->errors()
             ], 400);
         }
@@ -59,6 +60,7 @@ class BookController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
+                'message' => "Validation fails.",
                 'errors' => $validator->errors()
             ], 400);
         }
