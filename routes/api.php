@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StallController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ScrapController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +74,10 @@ Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
 Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
 Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
 Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
+
+ //Payment
+
+ Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
+ Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
+ Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
+ Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
