@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sidebars', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('route')->nullable();
-            $table->string('display_name')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sidebars');
+        Schema::dropIfExists('books');
     }
 };

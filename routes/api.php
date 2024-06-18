@@ -11,6 +11,8 @@ use App\Http\Controllers\StallController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\SalesOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,3 +83,17 @@ Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name(
  Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
  Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
  Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
+
+ //Book
+
+ Route::get('/book', [BookController::class, 'book'])->name('book');
+ Route::post('/book/insert',[BookController::class,'bookInsert'])->name('insert.book');
+ Route::post('/book/update/{id}', [BookController::class, 'bookUpdate'])->name('update.book');
+ Route::get('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
+
+   //Sales Order
+
+   Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
+   Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
+   Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
+   Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
