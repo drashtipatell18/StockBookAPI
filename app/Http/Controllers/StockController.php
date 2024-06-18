@@ -16,7 +16,6 @@ class StockController extends Controller
 
     public function stockStore(Request $request)
     {
-        dd('ishaaaaaaaaaaaaaaaaaaa');
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'quantity' => 'required',

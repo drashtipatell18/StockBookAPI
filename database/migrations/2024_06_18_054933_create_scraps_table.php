@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('scraps', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('scrap_weight');
+            $table->date('by_date');
+            $table->decimal('price', 8, 2)->nullable();
+            $table->date('to_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

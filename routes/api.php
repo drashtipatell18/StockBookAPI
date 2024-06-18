@@ -9,6 +9,7 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StallController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\ScrapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,10 @@ Route::get('/stock', [StockController::class, 'stock'])->name('stock');
 Route::post('/stock/store', [StockController::class, 'stockStore'])->name('stock.store');
 Route::post('/stock/update/{id}', [StockController::class, 'stockUpdate'])->name('stock.update');
 Route::delete('/stock/delete/{id}', [StockController::class, 'stockDestroy'])->name('stock.destroy');
+
+//Scrap
+
+Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
+Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
+Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
+Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');

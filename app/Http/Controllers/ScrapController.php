@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ScrapController extends Controller
 {
-    public function stock()
+    public function scrap()
     {
         $scraps = Scrap::all();
         return response()->json(['scraps' => $scraps], 200);
     }
 
-    public function stockStore(Request $request)
+    public function scrapInsert(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -43,7 +43,7 @@ class ScrapController extends Controller
         return response()->json(['message' => 'Scrap added successfully!', 'scrap' => $scrap], 201);
     }
 
-    public function stockUpdate(Request $request, $id)
+    public function scrapUpdate(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -77,7 +77,7 @@ class ScrapController extends Controller
         }
     }
 
-    public function stockDestroy($id)
+    public function scrapDestroy($id)
     {
         $scrap = Scrap::find($id);
 
