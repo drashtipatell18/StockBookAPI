@@ -1,8 +1,9 @@
 <?php
 
+// app/Http/Middleware/OnlyAdmin.php
+
 namespace App\Http\Middleware;
 
-use App\Models\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +14,14 @@ class OnlyAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $role
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $role = 'admin')
     {
-        if (Auth::check() && Auth::user()->role == $role) {
+        if (Auth::check() && Auth::user()->role->role_name == $role) {
             return $next($request);
         }
         return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);

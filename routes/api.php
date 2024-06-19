@@ -12,7 +12,9 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SalesOrderController;
+use App\Http\Middleware\OnlyAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
+  // Calendar
+  Route::get('/calendar', [DashboardController::class, 'calendar']);
+
   // User
   Route::get('/user', [UserController::class, 'users'])->name('user');
   Route::post('/user/insert',[UserController::class,'userInsert'])->name('insert.user');
