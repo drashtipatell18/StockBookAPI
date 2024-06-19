@@ -13,6 +13,7 @@ use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\SalesOrderController;
 use App\Http\Middleware\OnlyAdmin;
 
@@ -73,40 +74,49 @@ Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
   Route::get('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
 });
 
+Route::middleware('auth:sanctum')->group(function(){
+  Route::get('/holiday', [HolidayController::class, 'Holiday'])->name('holiday');
+
+  // Category
+  Route::get('/category', [CategoryController::class, 'category'])->name('category');
+
+  // Stall
+  Route::get('/stall', [StallController::class, 'stall'])->name('stall');
+  Route::post('/stall/store', [StallController::class, 'storeStall'])->name('stall.store');
+  Route::post('/stall/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
+  Route::get('/stall/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
+
+  //Stock
+  Route::get('/stock', [StockController::class, 'stock'])->name('stock');
+
+  //Scrap
+  Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
+  Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
+  Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
+  Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
+
+  //Payment
+  Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
+  Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
+  Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
+  Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
+
+  //Book
+  Route::get('/book', [BookController::class, 'book'])->name('book');
+
+  //Sales Order
+  Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
+  Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
+  Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
+  Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
+
+  // Leave
+  Route::get('/leave', [LeaveController::class, 'leave']);
+  Route::post('/leave/create', [LeaveController::class, 'leaveInsert']);
+  Route::post('/leave/update/{id}', [LeaveController::class, 'leaveUpdate']);
+  Route::get('/leave/destroy/{id}',[LeaveController::class,'leaveDestroy']);
+  Route::post('/leave/update-status', [LeaveController::class,'updateStatus']);
+});
+
 // Login
 Route::post('/login', [UserController::class, 'login']);
-
-Route::get('/holiday', [HolidayController::class, 'Holiday'])->name('holiday');
-
-// Category
-Route::get('/category', [CategoryController::class, 'category'])->name('category');
-
-// Stall
-Route::get('/stall', [StallController::class, 'stall'])->name('stall');
-Route::post('/stall/store', [StallController::class, 'storeStall'])->name('stall.store');
-Route::post('/stall/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
-Route::get('/stall/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
-
-//Stock
-Route::get('/stock', [StockController::class, 'stock'])->name('stock');
-
-//Scrap
-Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
-Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
-Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
-Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
-
-//Payment
-Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
-Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
-Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
-Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
-
-//Book
-Route::get('/book', [BookController::class, 'book'])->name('book');
-
-//Sales Order
-Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
-Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
-Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
-Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
