@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
-use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -19,7 +19,7 @@ class EmployeeController extends Controller
 
     public function employeeInsert(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
             'user_id' => 'required',
@@ -64,7 +64,7 @@ class EmployeeController extends Controller
 
     public function employeeUpdate(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
             'user_id' => 'required',
