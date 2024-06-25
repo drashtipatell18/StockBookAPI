@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('quantity')->nullable();
             $table->decimal('price', 8, 2)->nullable();
+            $table->unsignedBigInteger('book_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

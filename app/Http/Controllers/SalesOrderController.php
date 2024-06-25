@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SalesOrder;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,6 +35,27 @@ class SalesOrderController extends Controller
             ], 403);
         }
 
+        $stock = Stock::where('book_id', $request->input('book_id'))->first();
+        if(!$stock)
+        {
+            $customError = "*Stock not available";
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails.',
+                'errors' => $customError
+            ], 403);
+        }
+
+        if($stock->quantity < $request->input('quantity'))
+        {
+            $customError = "*Stock not available";
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails.',
+                'errors' => $customError
+            ], 403);
+        }
+
         $salesorder = SalesOrder::create([
             'stall_id'    => $request->input('stall_id'),
             'location'    => $request->input('location'),
@@ -41,6 +63,10 @@ class SalesOrderController extends Controller
             'sales_price' => $request->input('sales_price'),
             'quantity'    => $request->input('quantity'),
             'total_price' => $request->input('total_price'),
+        ]);
+
+        $stock->update([
+            'quantity' => $stock->quantity - $request->input('quantity')
         ]);
 
         return response()->json(['message' => 'Sales Order added successfully!', 'salesorder' => $salesorder], 200);

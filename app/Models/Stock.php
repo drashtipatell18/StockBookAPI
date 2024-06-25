@@ -10,5 +10,5 @@ class Stock extends Model
 {
     use HasFactory , SoftDeletes;
     protected $table = 'stocks';
-    protected $fillable = ['name','quantity','price'];
+    protected $fillable = ['name','quantity','price', 'book_id'];
 }

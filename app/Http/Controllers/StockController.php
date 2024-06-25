@@ -17,7 +17,7 @@ class StockController extends Controller
     public function stockStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'book_id' => 'required',
             'quantity' => 'required',
             'price' => 'required',
         ]);
@@ -29,12 +29,25 @@ class StockController extends Controller
             ], 400);
         }
 
+        $stock = Stock::where('book_id', $request->input('book_id'))->first();
+        if($stock)
+        {
+            $stock->quantity = $request->input('quantity');
+            $stock->price = $request->input('price');
 
-        $stock = Stock::create([
-            'name'      => $request->input('name'),
-            'quantity'  => $request->input('quantity'),
-            'price'     => $request->input('price'),
-        ]);
+            $stock->update([
+                'quantity' => $request->input('quantity') + $stock->quantity,
+                'price' => $request->input('price')
+            ]);
+        }
+        else
+        {
+            $stock = Stock::create([
+                'name'      => $request->input('name'),
+                'quantity'  => $request->input('quantity'),
+                'price'     => $request->input('price'),
+            ]);
+        }
 
         return response()->json(['message' => 'Stock added successfully!', 'stock' => $stock], 201);
     }
