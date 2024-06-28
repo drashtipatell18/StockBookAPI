@@ -34,9 +34,17 @@ class EmployeeController extends Controller
 
         $employeeimg = '';
         if ($request->hasFile('profilepic')) {
-            $image = $request->file('profilepic');
-            $employeeimg = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('images', $employeeimg);
+            $subimages = [];
+
+            foreach ($request->file('profilepic') as $file) {
+                $subImageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $file->move('images', $subImageName);
+
+                // Add the filename to the array
+                $subimages[] = $subImageName;
+            }
+            $employeeimg = json_encode($subimages);
         }
 
         $employee = Employee::create([
@@ -86,16 +94,29 @@ class EmployeeController extends Controller
                 $image->move(public_path('images'), $employeeimg);
 
                 // Optionally delete the old image
-                if ($employee->profilepic) {
-                    $oldImagePath = public_path('images') . '/' . $employee->profilepic;
-                    if (file_exists($oldImagePath)) {
-                        @unlink($oldImagePath);
+                if ($request->hasFile('profilepic')) {
+                    $subimages = [];
+                    foreach ($request->file('profilepic') as $file) {
+                        $subImageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $file->move('images', $subImageName);
+                        $subimages[] = $subImageName;
                     }
+                    $employee->profilepic = json_encode($subimages);
                 }
-                $employee->profilepic = $employeeimg;
             }
 
-            $employee->update($request->all());
+            $employee->update([
+                'user_id'       => $request->input('user_id'),
+                'firstname'      => $request->input('firstname'),
+                'lastname'       => $request->input('lastname'),
+                'dob'            => $request->input('dob'),
+                'email'          => $request->input('email'),
+                'address'        => $request->input('address'),
+                'phoneno'        => $request->input('phoneno'),
+                'gender'         => $request->input('gender'),
+                'salary'         => $request->input('salary'),
+                'joiningdate'    => $request->input('joiningdate'),
+            ]);
 
             return response()->json([
                 'success' => true,

@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function storeCategory(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category_name' => 'required',
+            'category_name' => 'required|alpha',
         ]);
 
         if ($validator->fails()) {

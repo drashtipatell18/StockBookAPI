@@ -81,16 +81,17 @@ Route::middleware('auth:sanctum')->group(function(){
   Route::get('/category', [CategoryController::class, 'category'])->name('category');
 
   // Stall
-  Route::get('/stall', [StallController::class, 'stall'])->name('stall');
-  Route::post('/stall/store', [StallController::class, 'storeStall'])->name('stall.store');
-  Route::post('/stall/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
-  Route::get('/stall/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
+  Route::get('/store', [StallController::class, 'stall'])->name('stall');
+  Route::post('/store/store', [StallController::class, 'storeStall'])->name('stall.store');
+  Route::post('/store/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
+  Route::get('/store/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
 
   //Stock
   Route::get('/stock', [StockController::class, 'stock'])->name('stock');
 
   //Scrap
   Route::get('/scrap', [ScrapController::class, 'scrap'])->name('scrap');
+  Route::get('/scrap/customers', [ScrapController::class, 'getScrapCustomer']);
   Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
   Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
   Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');

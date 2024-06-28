@@ -1,0 +1,1892 @@
+{
+	"info": {
+		"_postman_id": "17239a40-3f9b-4172-961b-c106fba4194d",
+		"name": "StockBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36173809"
+	},
+	"item": [
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "Create - Role ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "role_name",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/role/store",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "role_name",
+									"value": "employee",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/role/update/{{role_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role",
+								"update",
+								"{{role_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Role ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/role/delete/{{role_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role",
+								"delete",
+								"{{role_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Role ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create - User ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "isha",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "isha.kalathiyainfotech@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "role_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/4.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "isha1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "isha1.kalathiyainfotech@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "role_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/3.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/update/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"update",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - User ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/destroy/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"destroy",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Create - Employee",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "asti",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "patel",
+									"type": "text"
+								},
+								{
+									"key": "dob",
+									"value": "2000-06-17",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "asti.kalathiyainfotech@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "phoneno",
+									"value": "9852635215",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "Female",
+									"type": "text"
+								},
+								{
+									"key": "salary",
+									"value": "25000",
+									"type": "text"
+								},
+								{
+									"key": "profilepic",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/3.jpg"
+								},
+								{
+									"key": "joiningdate",
+									"value": "2024-06-27",
+									"type": "text"
+								},
+								{
+									"key": "total_leave",
+									"value": "22",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/employee/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employee",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Employee ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "isha",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "hapani",
+									"type": "text"
+								},
+								{
+									"key": "dob",
+									"value": "2000-06-17",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "isha1.kalathiyainfotech@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "phoneno",
+									"value": "9852635215",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "Female",
+									"type": "text"
+								},
+								{
+									"key": "salary",
+									"value": "25000",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Admin/Pictures/1jpg.jpg"
+								},
+								{
+									"key": "joiningdate",
+									"value": "2024-06-27",
+									"type": "text"
+								},
+								{
+									"key": "total_leave",
+									"value": "22",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/employee/update/{{emp_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employee",
+								"update",
+								"{{emp_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/employee/destroy/{{emp_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employee",
+								"destroy",
+								"{{emp_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get -  Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/employee",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Holiday",
+			"item": [
+				{
+					"name": "Holiday - Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Rakshabandh",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2024-08-19",
+									"type": "text"
+								},
+								{
+									"key": "day",
+									"value": "Monday",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/holiday/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"holiday",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Holiday Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Rakshabandh",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2024-08-19",
+									"type": "text"
+								},
+								{
+									"key": "day",
+									"value": "Monday",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/holiday/update/{{holiday_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"holiday",
+								"update",
+								"{{holiday_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Holiday - Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "q",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/holiday/destroy/{{holiday_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"holiday",
+								"destroy",
+								"{{holiday_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Holiday",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/holiday",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"holiday"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Create - Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category_name",
+									"value": "notebook",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/category/store",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category_name",
+									"value": "notebook",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/category/update/{{category_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category",
+								"update",
+								"{{category_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Category ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/category/destroy/{{category_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category",
+								"destroy",
+								"{{category_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/category",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stall",
+			"item": [
+				{
+					"name": "Create Stall",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "owner_name",
+									"value": "isha",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stall/store",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stall",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Stall",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "owner_name",
+									"value": "isha",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stall/update/{{stall_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stall",
+								"update",
+								"{{stall_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Stall",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stall/destroy/{{stall_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stall",
+								"destroy",
+								"{{stall_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Stall",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/stall",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stall"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "Create - Stock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stock/store",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stock",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Stock ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stock/update/{{stock_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stock",
+								"update",
+								"{{stock_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Stock",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/stock/destroy/{{stock_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stock",
+								"destroy",
+								"{{stock_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Stock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"stock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scrap",
+			"item": [
+				{
+					"name": "Create - Scrap",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "scrap_weight",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "by_date",
+									"value": "2000-02-10",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2000-02-11",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/scrap/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"scrap",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Scrap ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "scrap_weight",
+									"value": "11",
+									"type": "text"
+								},
+								{
+									"key": "by_date",
+									"value": "2000-02-10",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2000-02-11",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/scrap/update/{{scrap_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"scrap",
+								"update",
+								"{{scrap_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Scrap",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/scrap/destroy/{{scrap_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"scrap",
+								"destroy",
+								"{{scrap_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Scrap",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/scrap",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"scrap"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Get All Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "total_price",
+									"value": "12000",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "complete",
+									"type": "text"
+								},
+								{
+									"key": "accountno",
+									"value": "14000000",
+									"type": "text"
+								},
+								{
+									"key": "bankname",
+									"value": "State Bank of India",
+									"type": "text"
+								},
+								{
+									"key": "ifsccode",
+									"value": "sbin00000124",
+									"type": "text"
+								},
+								{
+									"key": "payment_date",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "salary_type",
+									"value": "cash",
+									"type": "text"
+								},
+								{
+									"key": "employee_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/payment/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payment",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=eyJpdiI6Ilo2eUk3anZKQjhSeHZoRlBNbk5pL3c9PSIsInZhbHVlIjoiT3lqZ3poWG5aMk5kOWdyMmRkMVVSU2w3VDJteW9IQUt4bWhsUCtFMmJrSXEzREJvL1lCaGY0K3dHMFhjT3U5dDBqUnZ2OGhHczhyNFdQV3lHMU4yd1VtT0l1SjBPWHp6Wm9BWFYyL25IRU9HSHFOdVZvN3BucmF1VUg0L2kyeHIiLCJtYWMiOiI0Njc3MGI2ZmYxMzAyNDdiMTNlMzMxMzg2ZjkxYjMzMTQ4NGQ5ODQwMzYyNmFiMzU4NzU3YmZiNDIyMDgwMmRjIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InlGa3NIazlhTGhJRzRSeTRHSkpqK0E9PSIsInZhbHVlIjoiZ3IzbmpiWHZrMU1xeTdLcEVZVjZpTU84U2tJMjdzZEVjY3VybmxYbEJzb3JVa3o3UUo4UGVDZXdHenJpZy82dGNmSFQ2czUrL3BtOXdjODdGUVZQUkpnVDhOb1NJYjhpaVJXbkxGKzNYQ2Ivd0hncmpIVlVFTEo4aWNmOVRnQTgiLCJtYWMiOiI5ZWVhMDkzZGU0MWI3MGIwNWZjMmMwMGRjMjZmYWQ5NzlkOTFiN2FkMmM0ZWI5YWI2MzA3MzQzMmZjYzhjZWNkIiwidGFnIjoiIn0%3D"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "total_price",
+									"value": "13000",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "complete",
+									"type": "text"
+								},
+								{
+									"key": "accountno",
+									"value": "14000000",
+									"type": "text"
+								},
+								{
+									"key": "bankname",
+									"value": "State Bank of India",
+									"type": "text"
+								},
+								{
+									"key": "ifsccode",
+									"value": "sbin00000124",
+									"type": "text"
+								},
+								{
+									"key": "payment_date",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "salary_type",
+									"value": "cash",
+									"type": "text"
+								},
+								{
+									"key": "employee_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/payment/update/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payment",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/payment/destroy/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"payment",
+								"destroy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Insert Book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Book 1",
+									"type": "text"
+								},
+								{
+									"key": "category_name",
+									"value": "thriller",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Linux/Downloads/admin.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/book/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"book",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Book Update",
+									"type": "text"
+								},
+								{
+									"key": "category_name",
+									"value": "notebook",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "120",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/book/update/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"book",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/book",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/book/destroy/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"book",
+								"destroy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Order",
+			"item": [
+				{
+					"name": "Insert Sale Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "stall_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "book_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "sales_price",
+									"value": "150",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "total_price",
+									"value": "1500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/salesorder/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"salesorder",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Sale Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=eyJpdiI6Ilo2eUk3anZKQjhSeHZoRlBNbk5pL3c9PSIsInZhbHVlIjoiT3lqZ3poWG5aMk5kOWdyMmRkMVVSU2w3VDJteW9IQUt4bWhsUCtFMmJrSXEzREJvL1lCaGY0K3dHMFhjT3U5dDBqUnZ2OGhHczhyNFdQV3lHMU4yd1VtT0l1SjBPWHp6Wm9BWFYyL25IRU9HSHFOdVZvN3BucmF1VUg0L2kyeHIiLCJtYWMiOiI0Njc3MGI2ZmYxMzAyNDdiMTNlMzMxMzg2ZjkxYjMzMTQ4NGQ5ODQwMzYyNmFiMzU4NzU3YmZiNDIyMDgwMmRjIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InlGa3NIazlhTGhJRzRSeTRHSkpqK0E9PSIsInZhbHVlIjoiZ3IzbmpiWHZrMU1xeTdLcEVZVjZpTU84U2tJMjdzZEVjY3VybmxYbEJzb3JVa3o3UUo4UGVDZXdHenJpZy82dGNmSFQ2czUrL3BtOXdjODdGUVZQUkpnVDhOb1NJYjhpaVJXbkxGKzNYQ2Ivd0hncmpIVlVFTEo4aWNmOVRnQTgiLCJtYWMiOiI5ZWVhMDkzZGU0MWI3MGIwNWZjMmMwMGRjMjZmYWQ5NzlkOTFiN2FkMmM0ZWI5YWI2MzA3MzQzMmZjYzhjZWNkIiwidGFnIjoiIn0%3D"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "stall_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "surat",
+									"type": "text"
+								},
+								{
+									"key": "book_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "sales_price",
+									"value": "140",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "total_price",
+									"value": "1400",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/salesorder/update/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"salesorder",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sale Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/salesorder",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"salesorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Sale Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/salesorder/destroy/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"salesorder",
+								"destroy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leave",
+			"item": [
+				{
+					"name": "Get All Leave",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 4|BWvVBh8EAHFXF14fUvejSm7dEHOXFwmgCSKwGDXmefa2a1f6",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/leave",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leave"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reason",
+									"value": "Demo API Check",
+									"type": "text"
+								},
+								{
+									"key": "startdate",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "enddate",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "leave_type",
+									"value": "sick leave",
+									"type": "text"
+								},
+								{
+									"key": "time_from",
+									"value": "05:00 PM",
+									"type": "text"
+								},
+								{
+									"key": "time_to",
+									"value": "06:00 PM",
+									"type": "text"
+								},
+								{
+									"key": "totalhours",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "employee_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/leave/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leave",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reason",
+									"value": "Demo API Check",
+									"type": "text"
+								},
+								{
+									"key": "startdate",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "enddate",
+									"value": "06/25/2024",
+									"type": "text"
+								},
+								{
+									"key": "leave_type",
+									"value": "sick leave",
+									"type": "text"
+								},
+								{
+									"key": "time_from",
+									"value": "05:00 PM",
+									"type": "text"
+								},
+								{
+									"key": "time_to",
+									"value": "06:00 PM",
+									"type": "text"
+								},
+								{
+									"key": "totalhours",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "employee_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/leave/update/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leave",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Leave",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/leave/destroy/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leave",
+								"destroy",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/leave/update-status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"leave",
+								"update-status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "isha1.kalathiyainfotech@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calendar",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/calendar",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"calendar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "Bearer 7|RrUO9ZzM9Z67qeLfw1yOQvYQ3KEp7pZ4wcuSWAFQ625f4b9d",
+			"type": "string"
+		}
+	]
+}

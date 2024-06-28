@@ -26,7 +26,9 @@ class PaymentController extends Controller
             // 'ifsccode' => 'required',
             'payment_date' => 'required',
             'salary_type' => 'required',
-            'employee_id' => 'required|exists:employees,id'
+            'employee_id' => 'required|exists:employees,id',
+            'advance_payment' => 'required',
+            'advance_payment_date' => 'required',
         ]);
 
         if($validate->fails())
@@ -39,14 +41,16 @@ class PaymentController extends Controller
         }
 
         $payment = Payment::create([
-            'employee_id'      => $request->input('employee_id'),
-            'accountno'        => $request->input('accountno'),
-            'bankname'         => $request->input('bankname'),
-            'ifsccode'         => $request->input('ifsccode'),
-            'payment_date'     => Carbon::parse($request->input('payment_date')),
-            'total_price'      => $request->input('total_price'),
-            'salary_type'      => $request->input('salary_type'),
-            'status'           => $request->input('status'),
+            'employee_id'           => $request->input('employee_id'),
+            'accountno'             => $request->input('accountno'),
+            'bankname'              => $request->input('bankname'),
+            'ifsccode'              => $request->input('ifsccode'),
+            'payment_date'          => Carbon::parse($request->input('payment_date')),
+            'total_price'           => $request->input('total_price'),
+            'salary_type'           => $request->input('salary_type'),
+            'status'                => $request->input('status'),
+            'advance_payment'       => $request->input('advance_payment'),
+            'advance_payment_date'  => $request->input('advance_payment_date'),
 
         ]);
 
@@ -78,6 +82,8 @@ class PaymentController extends Controller
             // 'ifsccode' => 'required',
             'payment_date' => 'required',
             'salary_type' => 'required',
+            'advance_payment' => 'required',
+            'advance_payment_date' => 'required',
         ]);
 
         if($validate->fails())
@@ -98,6 +104,8 @@ class PaymentController extends Controller
             'total_price'      => $request->input('total_price'),
             'salary_type'      => $request->input('salary_type'),
             'status'           => $request->input('status'),
+            'advance_payment'       => $request->input('advance_payment'),
+            'advance_payment_date'  => $request->input('advance_payment_date'),
         ]);
 
         return response()->json([

@@ -88,4 +88,10 @@ class ScrapController extends Controller
             return response()->json(['message' => 'Scrap not found'], 404);
         }
     }
+
+    public function getScrapCustomer()
+    {
+        $customers = Scrap::all()->pluck('customer_name')->unique();
+        return response()->json($customers);
+    }
 }
