@@ -43,7 +43,7 @@ class StockController extends Controller
         else
         {
             $stock = Stock::create([
-                'name'      => $request->input('name'),
+                'book_id'      => $request->input('book_id'),
                 'quantity'  => $request->input('quantity'),
                 'price'     => $request->input('price'),
             ]);
@@ -55,7 +55,7 @@ class StockController extends Controller
     public function stockUpdate(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'book_id' => 'required',
             'quantity' => 'required',
             'price' => 'required',
         ]);
@@ -71,7 +71,7 @@ class StockController extends Controller
 
         if ($stock) {
             $stock->update([
-                'name'      => $request->input('name'),
+                'book_id'      => $request->input('book_id'),
                 'quantity'  => $request->input('quantity'),
                 'price'     => $request->input('price'),
             ]);
