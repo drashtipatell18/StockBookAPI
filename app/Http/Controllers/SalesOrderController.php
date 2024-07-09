@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\SalesOrder;
 use App\Models\Stock;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Stall;
 use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SalesOrderController extends Controller
 {
@@ -19,22 +19,22 @@ class SalesOrderController extends Controller
 
     public function salesorderInsert(Request $request)
     {
-        $validateRequest = Validator::make($request->all(), [
-            'stall_id'    => 'required|exists:stalls,id',
-            'location'    => 'required',
-            'book_id'     => 'required|exists:books,id',
-            'sales_price' => 'required|numeric',
-            'quantity'    => 'required|integer',
-            'total_price' => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            // 'location'     => 'required',
+            'sales_price'  => 'required',
+            'quantity'     => 'required',
+            // 'total_price ' => 'required',
+            'book_id' => 'required',
+            'stall_id' => 'required'
         ]);
 
-        if($validateRequest->fails())
+        if($validator->fails())
         {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation fails.',
-                'errors' => $validateRequest->errors()
-            ], 403);
+                'message' => 'Validation Fails',
+                'errors' => $validator->errors()
+            ], 400);
         }
 
         $stock = Stock::where('book_id', $request->input('book_id'))->first();
@@ -43,11 +43,7 @@ class SalesOrderController extends Controller
             $customError = "*Stock not available";
             $stalls = Stall::pluck('name', 'id')->unique();
             $books = Book::pluck('name', 'id')->unique();
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation fails.',
-                'errors' => $customError
-            ], 403);
+            return response()->json(['success' => false, 'message' => 'Stock not available'], 400);
         }
 
         if($stock->quantity < $request->input('quantity'))
@@ -55,38 +51,34 @@ class SalesOrderController extends Controller
             $customError = "*Stock not available";
             $stalls = Stall::pluck('name', 'id')->unique();
             $books = Book::pluck('name', 'id')->unique();
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation fails.',
-                'errors' => $customError
-            ], 403);
+            return response()->json(['success' => false, 'message' => 'Stock not available'], 400);
         }
 
-        $salesorder = SalesOrder::create([
-            'stall_id'    => $request->input('stall_id'),
-            'location'    => $request->input('location'),
-            'book_id'     => $request->input('book_id'),
-            'sales_price' => $request->input('sales_price'),
-            'quantity'    => $request->input('quantity'),
-            'total_price' => $request->input('total_price'),
+        $salesorders = SalesOrder::create([
+            'stall_id'         => $request->input('stall_id'),
+            'location'         => $request->input('location'),
+            'book_id'          => $request->input('book_id'),
+            'sales_price'      => $request->input('sales_price'),
+            'quantity'         => $request->input('quantity'),
+            'total_price'      => $request->input('total_price'),
         ]);
 
         $stock->update([
             'quantity' => $stock->quantity - $request->input('quantity')
         ]);
 
-        return response()->json(['message' => 'Sales Order added successfully!', 'salesorder' => $salesorder], 200);
+        return response()->json(['message' => 'Sales Order added successfully!', 'salesorder' => $salesorders], 200);
     }
 
     public function salesorderUpdate(Request $request, $id)
     {
         $validateRequest = Validator::make($request->all(), [
-            'stall_id'    => 'required|exists:stalls,id',
-            'location'    => 'required',
-            'book_id'     => 'required|exists:books,id',
-            'sales_price' => 'required|numeric',
-            'quantity'    => 'required|integer',
-            'total_price' => 'required|numeric',
+            // 'location'     => 'required',
+            'sales_price'  => 'required',
+            'quantity'     => 'required',
+            // 'total_price ' => 'required',
+            'book_id' => 'required',
+            'stall_id' => 'required'
         ]);
 
         if($validateRequest->fails())
@@ -98,22 +90,57 @@ class SalesOrderController extends Controller
             ], 403);
         }
 
-        $salesorder = SalesOrder::find($id);
+        $salesorders = SalesOrder::find($id);
 
-        if ($salesorder) {
-            $salesorder->update([
-                'stall_id'    => $request->input('stall_id'),
-                'location'    => $request->input('location'),
-                'book_id'     => $request->input('book_id'),
-                'sales_price' => $request->input('sales_price'),
-                'quantity'    => $request->input('quantity'),
-                'total_price' => $request->input('total_price'),
+        if($salesorders->quantity == $request->input('quantity'))
+        {
+            $salesorders->update([
+                'book_id'          => $request->input('book_id'),
+                'stall_id'         => $request->input('stall_id'),
+                'location'         => $request->input('location'),
+                'sales_price'      => $request->input('sales_price'),
+                'quantity'         => $request->input('quantity'),
+                'total_price'      => $request->input('total_price'),
             ]);
-
-            return response()->json(['message' => 'Sales Order updated successfully!', 'salesorder' => $salesorder], 200);
-        } else {
-            return response()->json(['message' => 'Sales Order not found'], 404);
         }
+        else if($salesorders->quantity > $request->input('quantity'))
+        {
+            $stock = Stock::where('book_id', $request->input('book_id'))->first();
+            $stock->update([
+                'quantity' => $stock->quantity + ($salesorders->quantity - $request->input('quantity'))
+            ]);
+            $salesorders->update([
+                'book_id'          => $request->input('book_id'),
+                'stall_id'         => $request->input('stall_id'),
+                'location'         => $request->input('location'),
+                'sales_price'      => $request->input('sales_price'),
+                'quantity'         => $request->input('quantity'),
+                'total_price'      => $request->input('total_price'),
+            ]);
+            $stock = Stock::where('book_id', $request->input('book_id'))->first();
+        }
+        else
+        {
+            $stock = Stock::where('book_id', $request->input('book_id'))->first();
+            if($stock->quantity < ($request->input('quantity') - $salesorders->quantity))
+            {
+                session()->flash('danger', 'Quantity not available!');
+                return back();
+            }
+            $stock->update([
+                'quantity' => $stock->quantity - ($request->input('quantity') - $salesorders->quantity)
+            ]);
+            $salesorders->update([
+                'book_id'          => $request->input('book_id'),
+                'stall_id'         => $request->input('stall_id'),
+                'location'         => $request->input('location'),
+                'sales_price'      => $request->input('sales_price'),
+                'quantity'         => $request->input('quantity'),
+                'total_price'      => $request->input('total_price'),
+            ]);
+        }
+
+        return response()->json(['message' => 'Sales Order updated successfully!', 'salesorder' => $salesorders], 200);
     }
 
     public function salesorderDestroy($id)

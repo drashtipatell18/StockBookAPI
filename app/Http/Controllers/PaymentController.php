@@ -64,6 +64,7 @@ class PaymentController extends Controller
 
     public function paymentUpdate(Request $request, $id)
     {
+        
         $payments = Payment::find($id);
 
         if($payments == null)

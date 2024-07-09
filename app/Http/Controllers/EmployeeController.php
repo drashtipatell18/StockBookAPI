@@ -3,21 +3,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
     public function employees()
     {
-        dd(1);
         $employees = Employee::all();
         return response()->json([
             'success' => true,
             'data' => $employees
         ], 200);
+    }
+
+     public function getEmail($id)
+    {
+        return response()->json(["email" => User::find($id)->email]);
     }
 
     public function employeeInsert(Request $request)
@@ -37,6 +41,15 @@ class EmployeeController extends Controller
             'password' => 'required'
         ]);
 
+        if($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Fails',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
         $filename = '';
         if ($request->hasFile('image')){
             $image = $request->file('image');
@@ -52,15 +65,12 @@ class EmployeeController extends Controller
             'image' => $filename
         ]);
 
-
-
         $employee = Employee::create([
             'role_id' => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
             'lastname'       => $request->input('lastname'),
             'dob'            => $request->input('dob'),
             'email'          => $request->input('email'),
-            'password'       => Hash::make($request->input('password')),
             'address'        => $request->input('address'),
             'phoneno'        => $request->input('phoneno'),
             'gender'         => $request->input('gender'),
@@ -69,19 +79,20 @@ class EmployeeController extends Controller
             'aadhar_number'  => $request->input('aadhar_number')
         ]);
 
-
         return response()->json([
             'success' => true,
-            'message' => 'Employee added successfully!',
-            'data' => $employee
-        ], 201);
+            'message' => 'Employee added successfully!'
+        ], 200);
     }
 
 
 
     public function employeeUpdate(Request $request, $id)
     {
-
+        // echo '<pre>';
+        // print_r($request->all());
+        // print_r($id);
+        // echo '</pre>';exit;
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
@@ -96,39 +107,30 @@ class EmployeeController extends Controller
             'aadhar_number' => 'required',
         ]);
 
-          // Check if validation fails
-        if ($validator->fails()) {
+        if($validator->fails())
+        {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation error',
-                'errors' => $validator->errors(),
-            ], 422); // 422 Unprocessable Entity
+                'message' => 'Validation Fails',
+                'errors' => $validator->errors()
+            ], 400);
         }
 
         $employees = Employee::find($id);
-
-        if (!$employees) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Employee not found',
-            ], 404); // 404 Not Found
-        }
-
-        if ($request->filled('password')) {
-            $user = User::find($employees->user_id);
-            if ($user) {
-                $user->update([
-                    'password' => Hash::make($request->input('password'))
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User not found for this employee',
-                ], 404); // 404 Not Found
-            }
-        }
+        // echo '<pre>';
+        // // print_r($request->all());
+        // print_r($employees);
+        // echo '</pre>';exit;
+        // if(!empty($request->input('password')))
+        // {
+        //     $user = User::find($employees->user_id);
+        //     $user->update([
+        //         'password' => Hash::make($request->input('password'))
+        //     ]);
+        // }
 
         $employees->update([
+            'role_id'       => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
             'lastname'       => $request->input('lastname'),
             'dob'            => $request->input('dob'),
@@ -139,14 +141,12 @@ class EmployeeController extends Controller
             'salary'         => $request->input('salary'),
             'joiningdate'    => $request->input('joiningdate'),
             'aadhar_number'  => $request->input('aadhar_number')
-         ]);
+        ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Employee updated successfully!',
-            'data' => $employees
+            'message' => 'Employee Updated Successfully!'
         ], 200);
-
     }
 
     public function employeeDestroy($id)

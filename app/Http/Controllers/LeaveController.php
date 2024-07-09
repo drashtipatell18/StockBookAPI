@@ -144,7 +144,7 @@ class LeaveController extends Controller
         }
 
         $leaves = Leave::find($id);
-
+       
         // Update the balance leave for the employee
         if ($request->input('status') == 'approved' && $leaves->status != 'approved') {
             $employee = Employee::find($leaves->employee_id);

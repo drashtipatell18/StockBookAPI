@@ -18,7 +18,7 @@ class BookController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_name' => 'required',
+            'category_id' => 'required',
             'price' => 'required|numeric',
             'image' => 'nullable|image',
         ]);
@@ -40,7 +40,7 @@ class BookController extends Controller
 
         $book = Book::create([
             'name' => $request->input('name'),
-            'category_name' => $request->input('category_name'),
+            'category_id' => $request->input('category_id'),
             'price' => $request->input('price'),
             'image' => $filename,
         ]);
@@ -52,7 +52,7 @@ class BookController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_name' => 'required',
+            'category_id' => 'required',
             'price' => 'required|numeric',
             'image' => 'nullable|image',
         ]);
@@ -77,7 +77,7 @@ class BookController extends Controller
 
             $book->update([
                 'name' => $request->input('name'),
-                'category_name' => $request->input('category_name'),
+                'category_id' => $request->input('category_id'),
                 'price' => $request->input('price'),
             ]);
 

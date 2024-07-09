@@ -33,18 +33,8 @@ class ScrapController extends Controller
             ], 400);
         }
 
-        $name = $request->input('customer_name');
-        if(!empty($request->input('customer_name_text')))
-        {
-            $name = $request->input('customer_name_text');
-        }
-        else if(!empty($request->input('customer_name_select')))
-        {
-            $name = $request->input('customer_name_select');
-        }
-
         $scrap = Scrap::create([
-            'customer_name'    => $name,
+            'customer_name'    => $request->input('customer_name'),
             'name'             => $request->input('name'),
             'scrap_weight'     => $request->input('scrap_weight'),
             'by_date'          => $request->input('by_date'),
@@ -58,6 +48,7 @@ class ScrapController extends Controller
     public function scrapUpdate(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
+            'customer_name' => 'required',
             'name' => 'required',
             'scrap_weight' => 'required',
             'by_date' => 'required|date',
@@ -72,20 +63,12 @@ class ScrapController extends Controller
             ], 400);
         }
 
-        $name = $request->input('customer_name');
-        if(!empty($request->input('customer_name_text')))
-        {
-            $name = $request->input('customer_name_text');
-        }
-        else if(!empty($request->input('customer_name_select')))
-        {
-            $name = $request->input('customer_name_select');
-        }
 
         $scrap = Scrap::find($id);
 
         if ($scrap) {
             $scrap->update([
+                'customer_name'    => $request->input('customer_name'),
                 'name'             => $request->input('name'),
                 'scrap_weight'     => $request->input('scrap_weight'),
                 'by_date'          => $request->input('by_date'),
@@ -109,11 +92,5 @@ class ScrapController extends Controller
         } else {
             return response()->json(['message' => 'Scrap not found'], 404);
         }
-    }
-
-    public function getScrapCustomer()
-    {
-        $customers = Scrap::all()->pluck('customer_name')->unique();
-        return response()->json($customers);
     }
 }
