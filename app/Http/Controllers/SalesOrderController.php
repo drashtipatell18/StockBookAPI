@@ -6,6 +6,8 @@ use App\Models\SalesOrder;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Stall;
+use App\Models\Book;
 
 class SalesOrderController extends Controller
 {
@@ -39,6 +41,8 @@ class SalesOrderController extends Controller
         if(!$stock)
         {
             $customError = "*Stock not available";
+            $stalls = Stall::pluck('name', 'id')->unique();
+            $books = Book::pluck('name', 'id')->unique();
             return response()->json([
                 'success' => false,
                 'message' => 'Validation fails.',
@@ -49,6 +53,8 @@ class SalesOrderController extends Controller
         if($stock->quantity < $request->input('quantity'))
         {
             $customError = "*Stock not available";
+            $stalls = Stall::pluck('name', 'id')->unique();
+            $books = Book::pluck('name', 'id')->unique();
             return response()->json([
                 'success' => false,
                 'message' => 'Validation fails.',

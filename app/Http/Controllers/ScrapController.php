@@ -18,10 +18,12 @@ class ScrapController extends Controller
     public function scrapInsert(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'customer_name' => 'required',
             'name' => 'required',
             'scrap_weight' => 'required',
             'by_date' => 'required|date',
             'price' => 'required',
+            'to_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -31,8 +33,18 @@ class ScrapController extends Controller
             ], 400);
         }
 
+        $name = $request->input('customer_name');
+        if(!empty($request->input('customer_name_text')))
+        {
+            $name = $request->input('customer_name_text');
+        }
+        else if(!empty($request->input('customer_name_select')))
+        {
+            $name = $request->input('customer_name_select');
+        }
 
         $scrap = Scrap::create([
+            'customer_name'    => $name,
             'name'             => $request->input('name'),
             'scrap_weight'     => $request->input('scrap_weight'),
             'by_date'          => $request->input('by_date'),
@@ -50,6 +62,7 @@ class ScrapController extends Controller
             'scrap_weight' => 'required',
             'by_date' => 'required|date',
             'price' => 'required',
+            'to_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -59,6 +72,15 @@ class ScrapController extends Controller
             ], 400);
         }
 
+        $name = $request->input('customer_name');
+        if(!empty($request->input('customer_name_text')))
+        {
+            $name = $request->input('customer_name_text');
+        }
+        else if(!empty($request->input('customer_name_select')))
+        {
+            $name = $request->input('customer_name_select');
+        }
 
         $scrap = Scrap::find($id);
 

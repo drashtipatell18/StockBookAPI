@@ -12,7 +12,7 @@ class Employee extends Model
 
     protected $dates = ['deleted_at'];
     protected $table = 'employees';
-    protected $fillable = ['user_id','firstname','lastname','dob','email', 'address','phoneno','gender','salary','profilepic','joiningdate','total_leave'];
+    protected $fillable = ['role_id','firstname','lastname','dob','email','password', 'address','phoneno','gender','salary','profilepic','joiningdate','aadhar_number','total_leave'];
 
     // App\Models\Employee.php
     public function user()

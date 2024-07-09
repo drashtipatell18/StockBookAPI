@@ -29,7 +29,7 @@ class LeaveController extends Controller
             'time_from' => 'required',
             'time_to' => 'required',
             'totalhours' => 'required|numeric',
-            'employee_id' => 'required|exists:employees,id'
+            // 'employee_id' => 'required|exists:employees,id'
         ]);
 
         if($validate->fails())
@@ -77,7 +77,7 @@ class LeaveController extends Controller
             'time_from' => Carbon::parse($request->input('time_from'))->format('H:i:s'),
             'time_to' => Carbon::parse($request->input('time_to'))->format('H:i:s'),
             'totalhours' => $request->input('totalhours'),
-            'status' => $request->input('status', 'pending'),
+            'status' =>'pending',
             // 'requestto' => $request->input('requestto'),
         ]);
 
@@ -99,6 +99,16 @@ class LeaveController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Leave added successfully'],200);
+    }
+
+    public function changeStatus(Request $request,$id)
+    {
+        $leave = Leave::findOrFail($id);
+        $leave->status = $request->input('status');
+        $leave->save();
+
+        // You can return a response if needed
+        return response()->json(['message' => 'Leave status updated successfully']);
     }
 
     public function leaveUpdate(Request $request, $id)
@@ -164,7 +174,7 @@ class LeaveController extends Controller
             'time_from'  => Carbon::parse($request->input('time_from'))->format('H:i:s'),
             'time_to'    => Carbon::parse($request->input('time_to'))->format('H:i:s'),
             'totalhours' => $request->input('totalhours'),
-            'status'     => $request->input('status'),
+            'status'     => 'pending'
             // 'requestto'  => $request->input('requestto'),
         ]);
 
