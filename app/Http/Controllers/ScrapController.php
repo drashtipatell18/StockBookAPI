@@ -12,7 +12,11 @@ class ScrapController extends Controller
     public function scrap()
     {
         $scraps = Scrap::all();
-        return response()->json(['scraps' => $scraps], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Scrap data successfully',
+            'scraps' => $scraps
+        ], 200);
     }
 
     public function scrapInsert(Request $request)
@@ -42,7 +46,7 @@ class ScrapController extends Controller
             'to_date'          => $request->input('to_date'),
         ]);
 
-        return response()->json(['message' => 'Scrap added successfully!', 'scrap' => $scrap], 201);
+        return response()->json(['sucess'=>true,'message' => 'Scrap added successfully!', 'scrap' => $scrap], 201);
     }
 
     public function scrapUpdate(Request $request, $id)
@@ -76,9 +80,9 @@ class ScrapController extends Controller
                 'to_date'          => $request->input('to_date'),
             ]);
 
-            return response()->json(['message' => 'Scrap updated successfully!', 'scrap' => $scrap], 200);
+            return response()->json(['sucess'=>true,'message' => 'Scrap updated successfully!', 'scrap' => $scrap], 200);
         } else {
-            return response()->json(['message' => 'Scrap not found'], 404);
+            return response()->json(['sucess'=>false,'message' => 'Scrap not found'], 404);
         }
     }
 
@@ -88,9 +92,9 @@ class ScrapController extends Controller
 
         if ($scrap) {
             $scrap->delete();
-            return response()->json(['message' => 'Scrap deleted successfully!'], 200);
+            return response()->json(['sucess' =>true,'message' => 'Scrap deleted successfully!', 'scrap' => $scrap], 200);
         } else {
-            return response()->json(['message' => 'Scrap not found'], 404);
+            return response()->json(['sucess'=> false,'message' => 'Scrap not found'], 404);
         }
     }
 }

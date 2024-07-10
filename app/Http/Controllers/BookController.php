@@ -11,7 +11,11 @@ class BookController extends Controller
     public function book()
     {
         $books = Book::all();
-        return response()->json(['books' => $books], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Book data successfully',
+            'data' => $books
+        ], 200);
     }
 
     public function bookInsert(Request $request)
@@ -45,7 +49,7 @@ class BookController extends Controller
             'image' => $filename,
         ]);
 
-        return response()->json(['message' => 'Book added successfully!', 'book' => $book], 201);
+        return response()->json(['success' => true,'message' => 'Book added successfully!', 'book' => $book], 201);
     }
 
     public function bookUpdate(Request $request, $id)
@@ -81,9 +85,9 @@ class BookController extends Controller
                 'price' => $request->input('price'),
             ]);
 
-            return response()->json(['book' => $book, 'message' => 'Book updated successfully!'], 200);
+            return response()->json(['success' => true,'book' => $book, 'message' => 'Book updated successfully!'], 200);
         } else {
-            return response()->json(['message' => 'Book not found'], 404);
+            return response()->json(['success' => false,'message' => 'Book not found'], 404);
         }
     }
 
@@ -93,9 +97,9 @@ class BookController extends Controller
 
         if ($book) {
             $book->delete();
-            return response()->json(['message' => 'Book deleted successfully!'], 200);
+            return response()->json(['success' => true,'message' => 'Book deleted successfully!','book' => $book], 200);
         } else {
-            return response()->json(['message' => 'Book not found'], 404);
+            return response()->json(['success' => false,'message' => 'Book not found'], 404);
         }
     }
 }

@@ -11,7 +11,12 @@ class RoleController extends Controller
     public function role()
     {
         $roles = Role::all();
-        return response()->json($roles, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Role data successfully',
+            'role' => $roles,
+        ], 200);
+        // return response()->json($roles, 200);
     }
 
     public function roleStore(Request $request)
@@ -73,5 +78,6 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role Deleted successfully',
+            'role'    =>  $role,
         ], 200);    }
 }

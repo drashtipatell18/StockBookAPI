@@ -51,17 +51,17 @@ Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
   Route::get('/employee', [EmployeeController::class, 'employees'])->name('employee');
   Route::post('/employee/insert',[EmployeeController::class,'employeeInsert'])->name('insert.employee');
   Route::post('/employee/update/{id}', [EmployeeController::class, 'employeeUpdate'])->name('update.employee');
-  Route::get('/employee/destroy/{id}',[EmployeeController::class,'employeeDestroy'])->name('destroy.employee');
+  Route::delete('/employee/destroy/{id}',[EmployeeController::class,'employeeDestroy'])->name('destroy.employee');
 
   // Category
   Route::post('/category/store', [CategoryController::class, 'storeCategory'])->name('category.store');
   Route::post('/category/update/{id}', [CategoryController::class, 'categoryUpdate'])->name('update.category');
-  Route::get('/category/destroy/{id}',[CategoryController::class,'categoryDestroy'])->name('destroy.category');
+  Route::delete('/category/destroy/{id}',[CategoryController::class,'categoryDestroy'])->name('destroy.category');
 
   // Holiday
   Route::post('/holiday/insert',[HolidayController::class,'holidayInsert'])->name('insert.holiday');
   Route::post('/holiday/update/{id}', [HolidayController::class, 'holidayUpdate'])->name('update.holiday');
-  Route::get('/holiday/destroy/{id}',[HolidayController::class,'holidayDestroy'])->name('destroy.holiday');
+  Route::delete('/holiday/destroy/{id}',[HolidayController::class,'holidayDestroy'])->name('destroy.holiday');
 
   // Stock
   Route::post('/stock/store', [StockController::class, 'stockStore'])->name('stock.store');
@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
   // Book
   Route::post('/book/insert',[BookController::class,'bookInsert'])->name('insert.book');
   Route::post('/book/update/{id}', [BookController::class, 'bookUpdate'])->name('update.book');
-  Route::get('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
+  Route::delete('/book/destroy/{id}',[BookController::class,'bookDestroy'])->name('destroy.book');
 });
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -84,7 +84,7 @@ Route::middleware('auth:sanctum')->group(function(){
   Route::get('/store', [StallController::class, 'stall'])->name('stall');
   Route::post('/store/store', [StallController::class, 'storeStall'])->name('stall.store');
   Route::post('/store/update/{id}', [StallController::class, 'StallUpdate'])->name('update.stall');
-  Route::get('/store/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
+  Route::delete('/store/destroy/{id}',[StallController::class,'StallDestroy'])->name('destroy.stall');
 
   //Stock
   Route::get('/stock', [StockController::class, 'stock'])->name('stock');
@@ -94,13 +94,13 @@ Route::middleware('auth:sanctum')->group(function(){
   Route::get('/scrap/customers', [ScrapController::class, 'getScrapCustomer']);
   Route::post('/scrap/insert',[ScrapController::class,'scrapInsert'])->name('insert.scrap');
   Route::post('/scrap/update/{id}', [ScrapController::class, 'scrapUpdate'])->name('update.scrap');
-  Route::get('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
+  Route::delete('/scrap/destroy/{id}',[ScrapController::class,'scrapDestroy'])->name('destroy.scrap');
 
   //Payment
   Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
   Route::post('/payment/insert',[PaymentController::class,'paymentInsert'])->name('insert.payment');
   Route::post('/payment/update/{id}', [PaymentController::class, 'paymentUpdate'])->name('update.payment');
-  Route::get('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
+  Route::delete('/payment/destroy/{id}',[PaymentController::class,'paymentDestroy'])->name('destroy.payment');
 
   //Book
   Route::get('/book', [BookController::class, 'book'])->name('book');
@@ -109,14 +109,14 @@ Route::middleware('auth:sanctum')->group(function(){
   Route::get('/salesorder', [SalesOrderController::class, 'salesorder'])->name('salesorder');
   Route::post('/salesorder/insert',[SalesOrderController::class,'salesorderInsert'])->name('insert.salesorder');
   Route::post('/salesorder/update/{id}', [SalesOrderController::class, 'salesorderUpdate'])->name('update.salesorder');
-  Route::get('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
+  Route::delete('/salesorder/destroy/{id}',[SalesOrderController::class,'salesorderDestroy'])->name('destroy.salesorder');
 
   // Leave
   Route::get('/leave', [LeaveController::class, 'leave']);
   Route::post('/leave/create', [LeaveController::class, 'leaveInsert']);
   Route::post('/leave/update/{id}', [LeaveController::class, 'leaveUpdate']);
   Route::get('/leave/destroy/{id}',[LeaveController::class,'leaveDestroy']);
-  Route::post('/leave/update-status', [LeaveController::class,'updateStatus']);
+  Route::delete('/leave/update-status', [LeaveController::class,'updateStatus']);
 });
 
 // Login

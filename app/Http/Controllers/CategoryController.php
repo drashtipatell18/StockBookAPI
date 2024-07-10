@@ -13,6 +13,7 @@ class CategoryController extends Controller
         $categories = Category::all();
         return response()->json([
             'success' => true,
+            'message' => 'Categories data successfully',
             'data' => $categories
         ], 200);
     }
@@ -86,7 +87,8 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Category deleted successfully.'
+            'message' => 'Category deleted successfully.',
+            'data' => $category
         ], 200);
     }
 }

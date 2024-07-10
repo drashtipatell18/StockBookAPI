@@ -15,6 +15,7 @@ class EmployeeController extends Controller
         $employees = Employee::all();
         return response()->json([
             'success' => true,
+            'message' => 'Employee data successfully',
             'data' => $employees
         ], 200);
     }
@@ -81,7 +82,8 @@ class EmployeeController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Employee added successfully!'
+            'message' => 'Employee added successfully!',
+            'employee'=> $employee
         ], 200);
     }
 
@@ -116,7 +118,7 @@ class EmployeeController extends Controller
             ], 400);
         }
 
-        $employees = Employee::find($id);
+        $employee = Employee::find($id);
         // echo '<pre>';
         // // print_r($request->all());
         // print_r($employees);
@@ -129,7 +131,7 @@ class EmployeeController extends Controller
         //     ]);
         // }
 
-        $employees->update([
+        $employee->update([
             'role_id'       => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
             'lastname'       => $request->input('lastname'),
@@ -145,8 +147,10 @@ class EmployeeController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Employee Updated Successfully!'
+            'message' => 'Employee Updated Successfully!',
+            'employee'=> $employee,
         ], 200);
+
     }
 
     public function employeeDestroy($id)
@@ -156,7 +160,8 @@ class EmployeeController extends Controller
             $employee->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Employee deleted successfully!'
+                'message' => 'Employee deleted successfully!',
+                'employee'=> $employee,
             ], 200);
         } else {
             return response()->json([

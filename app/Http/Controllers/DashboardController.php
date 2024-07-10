@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Holiday;
 use App\Models\Leave;
+use App\Models\Category;
+use App\Models\Stall;
+use App\Models\Stock;
+use App\Models\Scrap;
+use App\Models\SalesOrder;
+use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +113,11 @@ class DashboardController extends Controller
             ->all();
         // Merge and return all events
         $leaves = array_merge($leaveEvents, $birthdayEvents,$holidayEvents);
+        return response()->json([
+            'success' => true,
+            'message' => 'Employee Birthday, Holiday data successfully',
+            'data' => $leaves
+        ], 200);
         return response()->json($leaves);
     }
 }

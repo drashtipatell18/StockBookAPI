@@ -41,10 +41,15 @@ class UserController extends Controller
         $user = User::where('email', $request->input('email'))->first();
         $token = $user->createToken($user->role_id)->plainTextToken;
         return response()->json([
-            'name' => $user->name,
-            'access_token' => $token,
-            'role' => Role::find($user->role_id)->role_name
+            'success' => true,
+            'message' => 'Login successfully',
+            'result' => [
+                'name' => $user->name,
+                'access_token' => $token,
+                'role' => Role::find($user->role_id)->role_name,
+            ],
         ]);
+        
     }
     
     public function userInsert(Request $request ){
@@ -132,6 +137,7 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User Deleted successfully',
+            'user' => $user,
         ], 200);
     }
 

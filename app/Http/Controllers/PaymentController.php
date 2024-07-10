@@ -13,6 +13,11 @@ class PaymentController extends Controller
     public function payment()
     {
         $payments = Payment::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Payment data successfully',
+            'data' => $payments
+        ], 200);
         return response()->json($payments, 200);
     }
 
@@ -123,7 +128,8 @@ class PaymentController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Payment deleted successfully.'
+            'message' => 'Payment deleted successfully.',     
+            'payment' => $payments
         ], 200);
     }
 }

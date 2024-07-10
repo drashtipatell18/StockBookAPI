@@ -12,6 +12,7 @@ class HolidayController extends Controller
         $holidays = Holiday::all();
         return response()->json([
             'success' => true,
+            'message' => 'Holiday data successfully',
             'data' => $holidays
         ], 200);
     }
@@ -90,7 +91,8 @@ class HolidayController extends Controller
         $holiday->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Holiday deleted successfully!'
+            'message' => 'Holiday deleted successfully!',
+            'data' => $holiday
         ], 200);
     }
 }

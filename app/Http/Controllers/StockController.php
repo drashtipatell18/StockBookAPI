@@ -11,7 +11,11 @@ class StockController extends Controller
     public function stock()
     {
         $stocks = Stock::all();
-        return response()->json(['stocks' => $stocks], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock data successfully',
+            'stocks' => $stocks
+        ], 200);
     }
 
     public function stockStore(Request $request)
@@ -49,7 +53,7 @@ class StockController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Stock added successfully!', 'stock' => $stock], 201);
+        return response()->json(['sucess'=> true, 'message' => 'Stock added successfully!', 'stock' => $stock], 201);
     }
 
     public function stockUpdate(Request $request, $id)
@@ -76,9 +80,9 @@ class StockController extends Controller
                 'price'     => $request->input('price'),
             ]);
 
-            return response()->json(['message' => 'Stock updated successfully!', 'stock' => $stock], 200);
+            return response()->json(['sucess'=> true,'message' => 'Stock updated successfully!', 'stock' => $stock], 200);
         } else {
-            return response()->json(['message' => 'Stock not found'], 404);
+            return response()->json(['error'=> true,'message' => 'Stock not found'], 404);
         }
     }
 
@@ -88,9 +92,9 @@ class StockController extends Controller
 
         if ($stock) {
             $stock->delete();
-            return response()->json(['message' => 'Stock deleted successfully!'], 200);
+            return response()->json(['sucess'=> true ,'message' => 'Stock deleted successfully!', 'stock' => $stock], 200);
         } else {
-            return response()->json(['message' => 'Stock not found'], 404);
+            return response()->json(['error'=> false ,'message' => 'Stock not found'], 404);
         }
     }
 }
