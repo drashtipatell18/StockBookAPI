@@ -98,7 +98,7 @@ class LeaveController extends Controller
             }
         }
 
-        return response()->json(['success' => true, 'message' => 'Leave added successfully'],200);
+        return response()->json(['success' => true, 'message' => 'Leave added successfully', 'result' => $leave],200);
     }
 
     public function changeStatus(Request $request,$id)
@@ -143,11 +143,11 @@ class LeaveController extends Controller
             return response()->json(['success' => false, 'message' => 'Insufficient balance leave'],403);
         }
 
-        $leaves = Leave::find($id);
+        $leave = Leave::find($id);
        
         // Update the balance leave for the employee
-        if ($request->input('status') == 'approved' && $leaves->status != 'approved') {
-            $employee = Employee::find($leaves->employee_id);
+        if ($request->input('status') == 'approved' && $leave->status != 'approved') {
+            $employee = Employee::find($leave->employee_id);
             if ($employee) {
                 if($request->totalhours <= 2)
                 {
@@ -165,7 +165,7 @@ class LeaveController extends Controller
             }
         }
 
-        $leaves->update([
+        $leave->update([
             'employee_id'=> $request->input('employee_id'),
             'reason'     => $request->input('reason'),
             'startdate'  => Carbon::parse($request->input('startdate')),
@@ -180,18 +180,20 @@ class LeaveController extends Controller
 
         return response()->json([
             'success' => false,
-            'message' => 'Leave updated successfully'
+            'message' => 'Leave updated successfully',
+            'result' => $leave,
         ],200);
     }
 
     public function leaveDestroy($id)
     {
-        $leaves = Leave::find($id);
-        $leaves->delete();
+        $leave = Leave::find($id);
+        $leave->delete();
         return redirect()->back();
         return response()->json([
             'success' => true,
-            'message' => "Leave deleted successfully"
+            'message' => "Leave deleted successfully",
+            'result' => $leave,
         ],200);
     }
 
@@ -203,7 +205,7 @@ class LeaveController extends Controller
             $leave->status = 1;
             $leave->save();
 
-            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.', 'result' => $leave]);
         }
 
         return response()->json(['success' => false, 'message' => 'Entity not found.']);

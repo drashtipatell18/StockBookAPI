@@ -13,7 +13,7 @@ class StallController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Store data successfully',
-            'stores' => $stalls
+            'result' => $stalls
         ], 200);
     }
 
@@ -37,7 +37,7 @@ class StallController extends Controller
             'owner_name'=> $request->input('owner_name'),
         ]);
 
-        return response()->json(['sucess'=> true,'message' => 'Store added successfully!', 'store' => $stall], 201);
+        return response()->json(['sucess'=> true,'message' => 'Store added successfully!', 'result' => $stall], 201);
     }
 
     public function StallUpdate(Request $request, $id){
@@ -63,7 +63,7 @@ class StallController extends Controller
                 'owner_name'=> $request->input('owner_name'),
             ]);
 
-            return response()->json(['sucess'=> true ,'message' => 'Store updated successfully!', 'store' => $stall], 200);
+            return response()->json(['sucess'=> true ,'message' => 'Store updated successfully!', 'result' => $stall], 200);
         } else {
             return response()->json(['sucess'=> false ,'message' => 'Store not found'], 404);
         }
@@ -74,7 +74,7 @@ class StallController extends Controller
 
         if ($stall) {
             $stall->delete();
-            return response()->json(['sucess'=> true,'message' => 'Store deleted successfully!', 'store' => $stall], 200);
+            return response()->json(['sucess'=> true,'message' => 'Store deleted successfully!', 'result' => $stall], 200);
         } else {
             return response()->json(['sucess' =>false,'message' => 'Store not found'], 404);
         }

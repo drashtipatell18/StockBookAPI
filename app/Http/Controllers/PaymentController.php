@@ -16,7 +16,7 @@ class PaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Payment data successfully',
-            'data' => $payments
+            'result' => $payments
         ], 200);
         return response()->json($payments, 200);
     }
@@ -62,7 +62,7 @@ class PaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Payment inserted successfully.',
-            'payment' => $payment
+            'result' => $payment
         ], 200);
 
     }
@@ -117,7 +117,7 @@ class PaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Payment updated successfully.',
-            'payment' => $payments
+            'result' => $payments
         ], 200);
     }
 
@@ -129,7 +129,7 @@ class PaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Payment deleted successfully.',     
-            'payment' => $payments
+            'result' => $payments
         ], 200);
     }
 }

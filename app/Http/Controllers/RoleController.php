@@ -14,7 +14,7 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role data successfully',
-            'role' => $roles,
+            'result' => $roles,
         ], 200);
         // return response()->json($roles, 200);
     }
@@ -41,7 +41,7 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role created successfully',
-            'role' => $role,
+            'result' => $role,
         ], 200);
     }
 
@@ -67,7 +67,7 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role Updated successfully',
-            'role' => $role,
+            'result' => $role,
         ], 200); 
     }
 
@@ -78,6 +78,6 @@ class RoleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Role Deleted successfully',
-            'role'    =>  $role,
+            'result'    =>  $role,
         ], 200);    }
 }

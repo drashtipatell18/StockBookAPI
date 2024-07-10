@@ -16,7 +16,7 @@ class EmployeeController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Employee data successfully',
-            'data' => $employees
+            'result' => $employees
         ], 200);
     }
 
@@ -83,7 +83,7 @@ class EmployeeController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Employee added successfully!',
-            'employee'=> $employee
+            'result'=> $employee
         ], 200);
     }
 
@@ -148,7 +148,7 @@ class EmployeeController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Employee Updated Successfully!',
-            'employee'=> $employee,
+            'result'=> $employee,
         ], 200);
 
     }
@@ -161,7 +161,7 @@ class EmployeeController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Employee deleted successfully!',
-                'employee'=> $employee,
+                'result'=> $employee,
             ], 200);
         } else {
             return response()->json([
@@ -181,7 +181,7 @@ class EmployeeController extends Controller
                 $employee = Employee::find($id);
                 return response()->json([
                     'success' => true,
-                    'data' => compact('id', 'employee')
+                    'result' => compact('id', 'employee')
                 ], 200);
             }
         }
@@ -211,7 +211,7 @@ class EmployeeController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Profile updated successfully',
-                'data' => $employee
+                'result' => $employee
             ], 200);
         } else {
             return response()->json([

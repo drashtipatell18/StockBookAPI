@@ -12,7 +12,11 @@ class UserController extends Controller
 {
     public function users(){
         $users = User::with('role')->get();
-        return response()->json($users, 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'User data successfully',
+            'result' => $users
+        ], 200);
     }
 
     public function login(Request $request)
@@ -87,7 +91,7 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User created successfully',
-            'user' => $user,
+            'result' => $user,
         ], 200);
     }
 
@@ -126,7 +130,7 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User Updated successfully',
-            'user' => $users,
+            'result' => $users,
         ], 200);
     }
 
@@ -137,7 +141,7 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'User Deleted successfully',
-            'user' => $user,
+            'result' => $user,
         ], 200);
     }
 
@@ -197,6 +201,10 @@ class UserController extends Controller
                 'image' => $filename
              ]);
         }
-        return redirect()->route('myprofile')->with('success', 'Profile updated successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully',
+            'result' => $users,
+        ], 200);
     }
 }

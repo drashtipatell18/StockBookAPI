@@ -116,7 +116,7 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Employee Birthday, Holiday data successfully',
-            'data' => $leaves
+            'result' => $leaves
         ], 200);
         return response()->json($leaves);
     }

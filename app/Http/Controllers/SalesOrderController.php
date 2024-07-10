@@ -17,7 +17,7 @@ class SalesOrderController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Salesorders data successfully',
-            'data' => $salesorders
+            'result' => $salesorders
         ], 200);
     }
 
@@ -71,7 +71,7 @@ class SalesOrderController extends Controller
             'quantity' => $stock->quantity - $request->input('quantity')
         ]);
 
-        return response()->json(['success' => false,'message' => 'Sales Order added successfully!', 'salesorder' => $salesorders], 200);
+        return response()->json(['success' => false,'message' => 'Sales Order added successfully!', 'result' => $salesorders], 200);
     }
 
     public function salesorderUpdate(Request $request, $id)
@@ -144,7 +144,7 @@ class SalesOrderController extends Controller
             ]);
         }
 
-        return response()->json(['success' => true,'message' => 'Sales Order updated successfully!', 'salesorder' => $salesorders], 200);
+        return response()->json(['success' => true,'message' => 'Sales Order updated successfully!', 'result' => $salesorders], 200);
     }
 
     public function salesorderDestroy($id)
@@ -153,7 +153,7 @@ class SalesOrderController extends Controller
 
         if ($salesorder) {
             $salesorder->delete();
-            return response()->json(['success' => true,'message' => 'Sales Order deleted successfully!', 'salesorder' => $salesorder], 200);
+            return response()->json(['success' => true,'message' => 'Sales Order deleted successfully!', 'result' => $salesorder], 200);
         } else {
             return response()->json(['success' => false, 'message' => 'Sales Order not found'], 404);
         }
