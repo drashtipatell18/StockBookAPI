@@ -25,15 +25,18 @@ class DashboardController extends Controller
         $scrap  = Scrap::count();
         $book = Book::count();
 
-        $monthlySales = SalesOrder::monthlySales()->get();
+        $monthlySales = SalesOrder::get();
         $salesData = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $monthSales = $monthlySales->firstWhere('month', $i);
             $salesData[] = $monthSales ? $monthSales->total_sales : 0;
         }
-
-        return response()->json([$category, $stall, $stock, $scrap, $book, $salesData], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data successfully',
+            'result' => ['category'=> $category, 'stall' => $stall,'stock' => $stock, 'scrap' => $scrap, 'book' => $book, 'salesData' => $salesData],
+        ], 200);
     }
     public function calendar()
     {

@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
   // Calendar
   Route::get('/calendar', [DashboardController::class, 'calendar']);
+  Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 
   // User
   Route::get('/user', [UserController::class, 'users'])->name('user');
