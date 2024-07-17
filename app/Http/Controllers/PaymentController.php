@@ -67,10 +67,10 @@ class PaymentController extends Controller
 
     }
 
-    public function paymentUpdate(Request $request, $id)
+    public function paymentUpdate(Request $request)
     {
         
-        $payments = Payment::find($id);
+        $payments = Payment::find($request->input('id'));
 
         if($payments == null)
         {
@@ -81,6 +81,7 @@ class PaymentController extends Controller
         }
 
         $validate = Validator::make($request->all(), [
+            'id' => 'required|exists:payments,id',
             'total_price' => 'required',
             'status' => 'required',
             // 'accountno' => 'required|numeric',
@@ -102,6 +103,7 @@ class PaymentController extends Controller
         }
 
         $payments->update([
+            'id'               => $request->input('id'),
             'employee_id'      => $request->input('employee_id'),
             'accountno'        => $request->input('accountno'),
             'bankname'         => $request->input('bankname'),
@@ -121,9 +123,9 @@ class PaymentController extends Controller
         ], 200);
     }
 
-    public function paymentDestroy($id)
+    public function paymentDestroy(Request $request)
     {
-        $payments = Payment::find($id);
+        $payments = Payment::find($request->input('id'));
         $payments->delete();
 
         return response()->json([

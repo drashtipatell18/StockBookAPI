@@ -40,8 +40,9 @@ class StallController extends Controller
         return response()->json(['sucess'=> true,'message' => 'Store added successfully!', 'result' => $stall], 201);
     }
 
-    public function StallUpdate(Request $request, $id){
+    public function StallUpdate(Request $request){
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:stalls,id',
             'name' => 'required',
             'location' => 'required',
             'owner_name' => 'required',
@@ -54,10 +55,11 @@ class StallController extends Controller
             ], 400);
         }
 
-        $stall = Stall::find($id);
+        $stall = Stall::find($request->input('id'));
 
         if ($stall) {
             $stall->update([
+                'id' => $request->input('id'),
                 'name'      => $request->input('name'),
                 'location'  => $request->input('location'),
                 'owner_name'=> $request->input('owner_name'),
@@ -69,8 +71,8 @@ class StallController extends Controller
         }
     }
 
-    public function StallDestroy($id){
-        $stall = Stall::find($id);
+    public function StallDestroy(Request $request){
+        $stall = Stall::find($request->input('id'));
 
         if ($stall) {
             $stall->delete();

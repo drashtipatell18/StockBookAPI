@@ -101,9 +101,9 @@ class LeaveController extends Controller
         return response()->json(['success' => true, 'message' => 'Leave added successfully', 'result' => $leave],200);
     }
 
-    public function changeStatus(Request $request,$id)
+    public function changeStatus(Request $request)
     {
-        $leave = Leave::findOrFail($id);
+        $leave = Leave::findOrFail($request->input('id'));
         $leave->status = $request->input('status');
         $leave->save();
 
@@ -111,9 +111,10 @@ class LeaveController extends Controller
         return response()->json(['message' => 'Leave status updated successfully']);
     }
 
-    public function leaveUpdate(Request $request, $id)
+    public function leaveUpdate(Request $request)
     {
         $validate = Validator::make($request->all(), [
+            'id' => 'required|exists:leaves,id',
             'reason' => 'required',
             'startdate' => 'required',
             'enddate' => 'required',
@@ -143,7 +144,7 @@ class LeaveController extends Controller
             return response()->json(['success' => false, 'message' => 'Insufficient balance leave'],403);
         }
 
-        $leave = Leave::find($id);
+        $leave = Leave::find($request->input('id'));
        
         // Update the balance leave for the employee
         if ($request->input('status') == 'approved' && $leave->status != 'approved') {
@@ -166,6 +167,7 @@ class LeaveController extends Controller
         }
 
         $leave->update([
+            'id'         => $request->input('id'),
             'employee_id'=> $request->input('employee_id'),
             'reason'     => $request->input('reason'),
             'startdate'  => Carbon::parse($request->input('startdate')),
@@ -185,11 +187,10 @@ class LeaveController extends Controller
         ],200);
     }
 
-    public function leaveDestroy($id)
+    public function leaveDestroy(Request $request)
     {
-        $leave = Leave::find($id);
+        $leave = Leave::find($request->input('id'));
         $leave->delete();
-        return redirect()->back();
         return response()->json([
             'success' => true,
             'message' => "Leave deleted successfully",
@@ -199,8 +200,8 @@ class LeaveController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $id = $request->id;
-        $leave = Leave::find($id);
+        // $id = $request->id;
+        $leave = Leave::find($request->input('id'));
         if ($leave) {
             $leave->status = 1;
             $leave->save();

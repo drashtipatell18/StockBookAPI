@@ -56,9 +56,10 @@ class StockController extends Controller
         return response()->json(['sucess'=> true, 'message' => 'Stock added successfully!', 'result' => $stock], 201);
     }
 
-    public function stockUpdate(Request $request, $id)
+    public function stockUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:stocks,id',
             'book_id' => 'required',
             'quantity' => 'required',
             'price' => 'required',
@@ -71,11 +72,12 @@ class StockController extends Controller
             ], 400);
         }
 
-        $stock = Stock::find($id);
+        $stock = Stock::find($request->input('id'));
 
         if ($stock) {
             $stock->update([
-                'book_id'      => $request->input('book_id'),
+                'id'        => $request->input('id'),
+                'book_id'   => $request->input('book_id'),
                 'quantity'  => $request->input('quantity'),
                 'price'     => $request->input('price'),
             ]);
@@ -86,9 +88,9 @@ class StockController extends Controller
         }
     }
 
-    public function stockDestroy($id)
+    public function stockDestroy(Request $request)
     {
-        $stock = Stock::find($id);
+        $stock = Stock::find($request->input('id'));
 
         if ($stock) {
             $stock->delete();

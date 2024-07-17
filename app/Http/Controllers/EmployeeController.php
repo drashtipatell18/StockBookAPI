@@ -89,13 +89,10 @@ class EmployeeController extends Controller
 
 
 
-    public function employeeUpdate(Request $request, $id)
+    public function employeeUpdate(Request $request)
     {
-        // echo '<pre>';
-        // print_r($request->all());
-        // print_r($id);
-        // echo '</pre>';exit;
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:employees,id',
             'firstname' => 'required',
             'lastname' => 'required',
             'role_id' => 'required',
@@ -118,21 +115,11 @@ class EmployeeController extends Controller
             ], 400);
         }
 
-        $employee = Employee::find($id);
-        // echo '<pre>';
-        // // print_r($request->all());
-        // print_r($employees);
-        // echo '</pre>';exit;
-        // if(!empty($request->input('password')))
-        // {
-        //     $user = User::find($employees->user_id);
-        //     $user->update([
-        //         'password' => Hash::make($request->input('password'))
-        //     ]);
-        // }
+        $employee = Employee::find($request->input('id'));
 
         $employee->update([
-            'role_id'       => $request->input('role_id'),
+            'id'             => $request->input('id'),
+            'role_id'        => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
             'lastname'       => $request->input('lastname'),
             'dob'            => $request->input('dob'),
@@ -153,9 +140,9 @@ class EmployeeController extends Controller
 
     }
 
-    public function employeeDestroy($id)
+    public function employeeDestroy(Request $request)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::find($request->input('id'));
         if ($employee) {
             $employee->delete();
             return response()->json([
@@ -193,7 +180,7 @@ class EmployeeController extends Controller
 
 
 
-    public function Profileupdate(Request $request, $id)
+    public function Profileupdate(Request $request)
     {
         $request->validate([
             'firstname' => 'required',
@@ -203,7 +190,7 @@ class EmployeeController extends Controller
             'position' => 'required'
         ]);
 
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::findOrFail($request->input('id'));
 
         if ($employee) {
             $employee->update($request->all());

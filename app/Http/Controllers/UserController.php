@@ -95,9 +95,10 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function userUpdate(Request $request,$id){
+    public function userUpdate(Request $request){
 
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
             'name' => 'required',
             'email' => 'required',
             'role_id' => 'required',
@@ -112,7 +113,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $users = User::find($id);
+        $users = User::find($request->input('id'));
         
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -122,6 +123,7 @@ class UserController extends Controller
         }
         
         $users->update([
+            'id' => $request->input('id'),
             'name'      => $request->input('name'),
             'email'     => $request->input('email'),
             'role_id'   => $request->input('role_id'),
@@ -134,9 +136,9 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function userDestroy($id)
+    public function userDestroy(Request $request)
     {
-        $user = User::find($id);
+        $user = User::find($request->input('id'));
         $user->delete();
         return response()->json([
             'success' => true,
@@ -155,15 +157,7 @@ class UserController extends Controller
         return view('admin.user_profile', compact('users','roles'));
     }
 
-    public function editProfile($id) {
-        if (Auth::check()) {
-            $users = User::find($id);
-
-        }
-        return view('admin.user_profile', compact('users'));
-    }
-
-    public function Profileupdate(Request $request, $id)
+    public function Profileupdate(Request $request)
     {
        
         $request->validate([
@@ -171,7 +165,7 @@ class UserController extends Controller
             'email'  => 'required',
         ]);
 
-        $users = User::find($id);
+        $users = User::find($request->input('id'));
 
         $flag = false;
         $filename = "";
@@ -190,6 +184,7 @@ class UserController extends Controller
                 'name'      => $request->input('name'),
                 'email'     => $request->input('email'),
                 'role_id'   => $request->input('role_id'),
+                'id' => $request->input('id')
              ]);
         }
         else
@@ -198,6 +193,7 @@ class UserController extends Controller
                 'name'      => $request->input('name'),
                 'email'     => $request->input('email'),
                 'role_id'   => $request->input('role_id'),
+                'id' => $request->input('id'),
                 'image' => $filename
              ]);
         }

@@ -21,6 +21,7 @@ class RoleController extends Controller
 
     public function roleStore(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'role_name' => 'required|unique:roles,role_name',
         ]);
@@ -45,10 +46,12 @@ class RoleController extends Controller
         ], 200);
     }
 
-    public function roleUpdate(Request $request, $id)
+    public function roleUpdate(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
-             'role_name' => 'required',
+            'id' => 'required|exists:roles,id',
+            'role_name' => 'required|string|max:255',
         ]);
 
         // Handle validation errors
@@ -60,24 +63,26 @@ class RoleController extends Controller
             ], 401);
         }
 
-        $role = Role::find($id);
+        $role = Role::find($request->input('id'));
         $role->update([
-            'role_name' => $request->input('role_name')
+            'role_name' => $request->input('role_name'),
+            'id' => $request->input('id')
         ]);
         return response()->json([
             'success' => true,
             'message' => 'Role Updated successfully',
             'result' => $role,
-        ], 200); 
+        ], 200);
     }
 
-    public function roleDestroy($id)
+    public function roleDestroy(Request $request)
     {
-        $role = Role::find($id);
+        $role = Role::find($request->input('id'));
         $role->delete();
         return response()->json([
             'success' => true,
             'message' => 'Role Deleted successfully',
             'result'    =>  $role,
-        ], 200);    }
+        ], 200);
+    }
 }

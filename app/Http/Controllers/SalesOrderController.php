@@ -74,9 +74,10 @@ class SalesOrderController extends Controller
         return response()->json(['success' => false,'message' => 'Sales Order added successfully!', 'result' => $salesorders], 200);
     }
 
-    public function salesorderUpdate(Request $request, $id)
+    public function salesorderUpdate(Request $request)
     {
         $validateRequest = Validator::make($request->all(), [
+            'id' => 'required|exists:salesorders,id',
             // 'location'     => 'required',
             'sales_price'  => 'required',
             'quantity'     => 'required',
@@ -94,7 +95,7 @@ class SalesOrderController extends Controller
             ], 403);
         }
 
-        $salesorders = SalesOrder::find($id);
+        $salesorders = SalesOrder::find($request->input('id'));
 
         if($salesorders->quantity == $request->input('quantity'))
         {
@@ -135,6 +136,7 @@ class SalesOrderController extends Controller
                 'quantity' => $stock->quantity - ($request->input('quantity') - $salesorders->quantity)
             ]);
             $salesorders->update([
+                'id'               => $request->input('id'),
                 'book_id'          => $request->input('book_id'),
                 'stall_id'         => $request->input('stall_id'),
                 'location'         => $request->input('location'),
@@ -147,9 +149,9 @@ class SalesOrderController extends Controller
         return response()->json(['success' => true,'message' => 'Sales Order updated successfully!', 'result' => $salesorders], 200);
     }
 
-    public function salesorderDestroy($id)
+    public function salesorderDestroy(Request $request)
     {
-        $salesorder = SalesOrder::find($id);
+        $salesorder = SalesOrder::find($request->input('id'));
 
         if ($salesorder) {
             $salesorder->delete();

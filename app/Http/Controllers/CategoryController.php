@@ -42,9 +42,10 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    public function categoryUpdate(Request $request, $id)
+    public function categoryUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:categories,id',
             'category_name' => 'required',
         ]);
 
@@ -55,7 +56,7 @@ class CategoryController extends Controller
             ], 400);
         }
 
-        $category = Category::find($id);
+        $category = Category::find($request->input('id'));
         if (!$category) {
             return response()->json([
                 'success' => false,
@@ -64,6 +65,7 @@ class CategoryController extends Controller
         }
 
         $category->update([
+            'id' => $request->input('id'),
             'category_name' => $request->input('category_name')
         ]);
 
@@ -74,9 +76,9 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    public function categoryDestroy($id)
+    public function categoryDestroy(Request $request)
     {
-        $category = Category::find($id);
+        $category = Category::find($request->input('id'));
         if (!$category) {
             return response()->json([
                 'success' => false,

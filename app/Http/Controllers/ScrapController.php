@@ -49,9 +49,10 @@ class ScrapController extends Controller
         return response()->json(['sucess'=>true,'message' => 'Scrap added successfully!', 'result' => $scrap], 201);
     }
 
-    public function scrapUpdate(Request $request, $id)
+    public function scrapUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:scraps,id',
             'customer_name' => 'required',
             'name' => 'required',
             'scrap_weight' => 'required',
@@ -68,10 +69,11 @@ class ScrapController extends Controller
         }
 
 
-        $scrap = Scrap::find($id);
+        $scrap = Scrap::find($request->input('id'));
 
         if ($scrap) {
             $scrap->update([
+                'id'               => $request->input('id'),
                 'customer_name'    => $request->input('customer_name'),
                 'name'             => $request->input('name'),
                 'scrap_weight'     => $request->input('scrap_weight'),
@@ -86,9 +88,9 @@ class ScrapController extends Controller
         }
     }
 
-    public function scrapDestroy($id)
+    public function scrapDestroy(Request $request)
     {
-        $scrap = Scrap::find($id);
+        $scrap = Scrap::find($request->input('id'));
 
         if ($scrap) {
             $scrap->delete();

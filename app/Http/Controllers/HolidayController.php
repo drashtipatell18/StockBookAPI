@@ -46,9 +46,10 @@ class HolidayController extends Controller
     }
 
     
-    public function holidayUpdate(Request $request, $id)
+    public function holidayUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:holidays,id',
             'name' => 'required',
             'date' => 'required|date',
             'day' => 'required',
@@ -61,7 +62,7 @@ class HolidayController extends Controller
             ], 400);
         }
 
-        $holiday = Holiday::find($id);
+        $holiday = Holiday::find($request->input('id'));
         if (!$holiday) {
             return response()->json([
                 'success' => false,
@@ -78,9 +79,9 @@ class HolidayController extends Controller
         ], 200);
     }
 
-    public function holidayDestroy($id)
+    public function holidayDestroy(Request $request)
     {
-        $holiday = Holiday::find($id);
+        $holiday = Holiday::find($request->input('id'));
         if (!$holiday) {
             return response()->json([
                 'success' => false,

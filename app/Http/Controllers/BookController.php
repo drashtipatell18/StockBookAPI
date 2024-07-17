@@ -52,9 +52,10 @@ class BookController extends Controller
         return response()->json(['success' => true,'message' => 'Book added successfully!', 'result' => $book], 201);
     }
 
-    public function bookUpdate(Request $request, $id)
+    public function bookUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:books,id',
             'name' => 'required',
             'category_id' => 'required',
             'price' => 'required|numeric',
@@ -69,7 +70,7 @@ class BookController extends Controller
             ], 400);
         }
 
-        $book = Book::find($id);
+        $book = Book::find($request->input('id'));
 
         if ($book) {
             if ($request->hasFile('image')) {
@@ -80,6 +81,7 @@ class BookController extends Controller
             }
 
             $book->update([
+                'id' => $request->input('id'),
                 'name' => $request->input('name'),
                 'category_id' => $request->input('category_id'),
                 'price' => $request->input('price'),
@@ -91,9 +93,9 @@ class BookController extends Controller
         }
     }
 
-    public function bookDestroy($id)
+    public function bookDestroy(Request $request)
     {
-        $book = Book::find($id);
+        $book = Book::find($request->input('id'));
 
         if ($book) {
             $book->delete();
