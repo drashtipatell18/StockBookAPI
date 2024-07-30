@@ -23,8 +23,7 @@ class BookController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'category_id' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image',
+            'price' => 'required|numeric'
         ]);
 
         if ($validator->fails()) {
@@ -58,8 +57,7 @@ class BookController extends Controller
             'id' => 'required|exists:books,id',
             'name' => 'required',
             'category_id' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image',
+            'price' => 'required|numeric'
         ]);
 
         if ($validator->fails()) {

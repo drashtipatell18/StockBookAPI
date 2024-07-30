@@ -122,3 +122,4 @@ Route::middleware('auth:sanctum')->group(function(){
 
 // Login
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/profile/updateprofile', [UserController::class, 'ProfileUpdate']);

@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function users(){
+    public function users()
+    {
         $users = User::with('role')->get();
         return response()->json([
             'success' => true,
@@ -26,8 +27,7 @@ class UserController extends Controller
             'password' => 'required'
         ]);
 
-        if($validateUser->fails())
-        {
+        if ($validateUser->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation fails',
@@ -35,8 +35,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        if(!Auth::attempt($request->only(['email', 'password'])))
-        {
+        if (!Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'success' => false,
                 'message' => 'Credential does not found in our records',
@@ -48,15 +47,17 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Login successfully',
             'result' => [
+                'id' => $user->id,
                 'name' => $user->name,
+                'email' => $user->email,
                 'access_token' => $token,
                 'role' => Role::find($user->role_id)->role_name,
             ],
         ]);
-        
     }
-    
-    public function userInsert(Request $request ){
+
+    public function userInsert(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
@@ -74,7 +75,7 @@ class UserController extends Controller
         }
 
         $filename = '';
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $filename);
@@ -95,7 +96,8 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function userUpdate(Request $request){
+    public function userUpdate(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
@@ -114,20 +116,20 @@ class UserController extends Controller
         }
 
         $users = User::find($request->input('id'));
-        
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move('images', $filename);
             $users->image = $filename;
         }
-        
+
         $users->update([
             'id' => $request->input('id'),
             'name'      => $request->input('name'),
             'email'     => $request->input('email'),
             'role_id'   => $request->input('role_id'),
-         ]);
+        ]);
 
         return response()->json([
             'success' => true,
@@ -147,60 +149,46 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function myProfile(){
+    public function myProfile()
+    {
         if (Auth::check()) {
             $userid = Auth::user()->id;
             $users = User::with('role')->find($userid);
-
         }
         $roles = Role::pluck('role_name', 'id');
-        return view('admin.user_profile', compact('users','roles'));
+        return view('admin.user_profile', compact('users', 'roles'));
     }
 
     public function Profileupdate(Request $request)
     {
-       
         $request->validate([
-            'name' => 'required',
-            'email'  => 'required',
+            'id' => 'required|exists:users,id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $request->input('id'),
+            'role_id' => 'required|exists:roles,id',
         ]);
-
-        $users = User::find($request->input('id'));
-
-        $flag = false;
-        $filename = "";
-
-        if ($request->hasFile('newimage')) {
-            $image = $request->file('newimage');
+    
+        $user = User::findOrFail($request->input('id'));
+    
+        $updateData = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'role_id' => $request->input('role_id'),
+        ];
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('images', $filename);
-            $users->image = $filename;
-
-            $flag = true;
+            $image->move(public_path('images'), $filename);
+            $updateData['image'] = $filename;
         }
-        if(!$flag)
-        {
-            $users->update([
-                'name'      => $request->input('name'),
-                'email'     => $request->input('email'),
-                'role_id'   => $request->input('role_id'),
-                'id' => $request->input('id')
-             ]);
-        }
-        else
-        {
-            $users->update([
-                'name'      => $request->input('name'),
-                'email'     => $request->input('email'),
-                'role_id'   => $request->input('role_id'),
-                'id' => $request->input('id'),
-                'image' => $filename
-             ]);
-        }
+    
+        $user->update($updateData);
+    
         return response()->json([
             'success' => true,
             'message' => 'Profile updated successfully',
-            'result' => $users,
+            'result' => $user->fresh(),
         ], 200);
     }
 }
