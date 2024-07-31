@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
   // Category
   Route::get('/category', [CategoryController::class, 'category'])->name('category');
+  Route::post('/changepassword',[DashboardController::class,'changePassword'])->name('changePassword');
 
   // Stall
   Route::get('/store', [StallController::class, 'stall'])->name('stall');
@@ -123,3 +124,6 @@ Route::middleware('auth:sanctum')->group(function(){
 // Login
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/profile/updateprofile', [UserController::class, 'ProfileUpdate']);
+Route::post('password/email', [DashboardController::class, 'sendResetLinkEmail']);
+Route::get('password/reset/{token}', [DashboardController::class, 'reset'])->name('reset');
+Route::post('password/reset/{token}', [DashboardController::class, 'postReset']);

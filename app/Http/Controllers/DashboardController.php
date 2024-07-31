@@ -14,6 +14,12 @@ use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\ForgotPasswordMail;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -35,7 +41,7 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data successfully',
-            'result' => ['category'=> $category, 'stall' => $stall,'stock' => $stock, 'scrap' => $scrap, 'book' => $book, 'salesData' => $salesData],
+            'result' => ['category' => $category, 'stall' => $stall, 'stock' => $stock, 'scrap' => $scrap, 'book' => $book, 'salesData' => $salesData],
         ], 200);
     }
     public function calendar()
@@ -50,7 +56,7 @@ class DashboardController extends Controller
             $leavesQuery = Leave::where('status', 'approved');
         } else {
             $leavesQuery = Leave::where('status', 'approved')
-                                ->where('user_id', $userid);
+                ->where('user_id', $userid);
         }
 
         // Fetch and map leave events
@@ -102,8 +108,8 @@ class DashboardController extends Controller
             ->filter()
             ->all();
 
-            // Fetch holidays
-            $holidayEvents = Holiday::all(['name', 'date'])
+        // Fetch holidays
+        $holidayEvents = Holiday::all(['name', 'date'])
             ->map(function ($holiday) {
                 return [
                     'title' => $holiday->name,
@@ -115,12 +121,119 @@ class DashboardController extends Controller
             })
             ->all();
         // Merge and return all events
-        $leaves = array_merge($leaveEvents, $birthdayEvents,$holidayEvents);
+        $leaves = array_merge($leaveEvents, $birthdayEvents, $holidayEvents);
         return response()->json([
             'success' => true,
             'message' => 'Employee Birthday, Holiday data successfully',
             'result' => $leaves
         ], 200);
         return response()->json($leaves);
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $user->remember_token = Str::random(40);
+            $user->save();
+
+            Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+            return response()->json(['success' => true, 'message' => 'Password reset link sent successfully.'], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+        }
+    }
+
+    // Method to display the reset form
+    public function reset($token)
+    {
+        $user = User::where('remember_token', $token)->first();
+    
+        if ($user) {
+            $data = [
+                'user' => $user,
+                'token' => $user->remember_token
+            ];
+            return view('reset', $data);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Invalid token.'], 400);
+        }
+    }
+    
+    // Method to handle the form submission
+    public function postReset($token, Request $request)
+    {
+        // Debugging line to check request data
+        // dd($request->all());
+
+        $validateUser = Validator::make($request->all(), [
+            'new_password' => 'required|string|min:8',
+            'confirm_password' => 'required|string|min:8|same:new_password',
+        ]);
+
+        if ($validateUser->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation fails',
+                'error' => $validateUser->errors()
+            ], 401);
+        }
+
+        $user = User::where('remember_token', $token)->first();
+
+        if ($user) {
+            if (empty($user->email_verified_at)) {
+                $user->email_verified_at = now();
+            }
+            $user->remember_token = Str::random(40);
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json(['success' => true,'message' => 'Password successfully reset.'], 200);
+        } else {
+            return response()->json(['success' => false,'message' => 'Invalid token.'], 400);
+        }
+    }
+
+
+    public function changePassword(Request $request)
+    { 
+            $validator = Validator::make($request->all(), [
+                'current_password' => 'required',
+                'new_password' => 'required',
+                'confirm_password' => 'required|same:new_password',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => 'false',
+                    'message' => "Validation Fails",
+                    'errors' => $validator->errors()
+                ], 400);
+            }
+
+            $user = Auth::user();
+
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The old password does not match our records.'
+                ], 400);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password changed successfully.'
+            ], 200);
+        
     }
 }
