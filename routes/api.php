@@ -77,6 +77,7 @@ Route::middleware(['auth:sanctum', 'OnlyAdmin:admin'])->group(function(){
 
 Route::middleware('auth:sanctum')->group(function(){
   Route::get('/holiday', [HolidayController::class, 'Holiday'])->name('holiday');
+  Route::get('/calendar', [DashboardController::class, 'calendar']);
 
   // Category
   Route::get('/category', [CategoryController::class, 'category'])->name('category');

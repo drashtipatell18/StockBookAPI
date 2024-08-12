@@ -30,18 +30,26 @@ class DashboardController extends Controller
         $stock = Stock::count();
         $scrap  = Scrap::count();
         $book = Book::count();
-
-        $monthlySales = SalesOrder::get();
-        $salesData = [];
-
-        for ($i = 1; $i <= 12; $i++) {
-            $monthSales = $monthlySales->firstWhere('month', $i);
-            $salesData[] = $monthSales ? $monthSales->total_sales : 0;
+    
+        $monthlySales = SalesOrder::all(); // Fetch all sales orders
+        $salesData = array_fill(1, 12, 0); // Initialize sales data for 12 months
+    
+        foreach ($monthlySales as $sale) {
+            $month = \Carbon\Carbon::parse($sale->created_at)->month; // Get the month from created_at
+            $salesData[$month] += $sale->total_price; // Sum total_price for the corresponding month
         }
+    
         return response()->json([
             'success' => true,
             'message' => 'Data successfully',
-            'result' => ['category' => $category, 'stall' => $stall, 'stock' => $stock, 'scrap' => $scrap, 'book' => $book, 'salesData' => $salesData],
+            'result' => [
+                'category' => $category,
+                'stall' => $stall,
+                'stock' => $stock,
+                'scrap' => $scrap,
+                'book' => $book,
+                'salesData' => $salesData,
+            ],
         ], 200);
     }
     public function calendar()

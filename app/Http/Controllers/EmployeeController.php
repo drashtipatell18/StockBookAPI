@@ -25,8 +25,7 @@ class EmployeeController extends Controller
         return response()->json(["email" => User::find($id)->email]);
     }
 
-    public function employeeInsert(Request $request)
-    {
+    public function employeeInsert(Request $request ){
         $validator = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
@@ -42,32 +41,15 @@ class EmployeeController extends Controller
             'password' => 'required'
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Fails',
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
         $filename = '';
         if ($request->hasFile('image')){
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move('images', $filename);
         }
-
-        $user = User::create([
-            'name' => $request->input('firstname'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'role_id' => $request->input('role_id'),
-            'image' => $filename
-        ]);
-
+    
         $employee = Employee::create([
-            'role_id' => $request->input('role_id'),
+            'role_id'        => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
             'lastname'       => $request->input('lastname'),
             'dob'            => $request->input('dob'),
@@ -77,17 +59,16 @@ class EmployeeController extends Controller
             'gender'         => $request->input('gender'),
             'salary'         => $request->input('salary'),
             'joiningdate'    => $request->input('joiningdate'),
-            'aadhar_number'  => $request->input('aadhar_number')
+            'aadhar_number'  => $request->input('aadhar_number'),
+            'password'       => Hash::make($request->input('password'))
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Employee added successfully!',
-            'result'=> $employee
+            'message' => 'Employee added successfully',
+            'result' => $employee
         ], 200);
     }
-
-
 
     public function employeeUpdate(Request $request)
     {

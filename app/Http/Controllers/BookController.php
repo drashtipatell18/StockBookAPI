@@ -39,6 +39,7 @@ class BookController extends Controller
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move('images', $filename);
+            $filename = url('images/' . $filename); // Generate the full URL for the image
         }
 
         $book = Book::create([
