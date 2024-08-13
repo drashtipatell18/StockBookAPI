@@ -12,11 +12,16 @@ use Illuminate\Support\Facades\Validator;
 
 class LeaveController extends Controller
 {
-    public function leave()
+    public function leave(Request $request)
     {
-        $employee = Employee::where('email', User::find(Auth()->user()->id)->email)->get()->first();
-        $leaves = ((Auth()->user()->role_id != 1) ? Leave::with('employee')->where('employee_id', $employee->id)->get() : Leave::with('employee')->get());
-        return response()->json($leaves, 200);
+        // Get the authenticated user's email directly from the request
+        $employee = Employee::where('id', $request->user()->id)->first();
+    
+        // Retrieve leaves based on the employee's ID and role
+        $leaves = ($request->user()->role_id != 1) 
+            ? Leave::with('employee')->where('employee_id', $employee->id)->get() 
+            : Leave::with('employee')->get();
+            return response()->json(['success' => true, 'message' => 'Leave data successfully', 'result' => $leaves],200);
     }
 
     public function leaveInsert(Request $request)
@@ -32,12 +37,13 @@ class LeaveController extends Controller
             // 'employee_id' => 'required|exists:employees,id'
         ]);
 
-        if ($validate->fails()) {
+        if($validate->fails())
+        {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation fails',
                 'errors' => $validate->errors()
-            ], 403);
+            ],403);
         }
 
         $balanceLeave = 22; // Initial balance leave, can be retrieved from the database if needed.
@@ -64,16 +70,16 @@ class LeaveController extends Controller
                 'message' => "Insufficient balance leave"
             ], 403);
         }
-
-        $leave = Leave::create([
+        // dd($request->all());
+       $leave = Leave::create([
             'user_id' => Auth()->user()->id,
             'employee_id' => $request->input('employee_id'),
             'reason' => $request->input('reason'),
             'startdate' => $request->input('startdate'),
             'enddate' => $request->input('enddate'),
             'leave_type' => $request->input('leave_type'),
-            'time_from' => $request->input('time_from'),
-            'time_to' => $request->input('time_to'),
+            'time_from'  => $request->input('time_from'),
+            'time_to'    => $request->input('time_to'),
             'totalhours' => $request->input('totalhours'),
             'status' => 'pending',
         ]);
@@ -94,7 +100,7 @@ class LeaveController extends Controller
                 $employee->update(['total_leave' => $newBalance]);
             }
         }
-        return response()->json(['success' => true, 'message' => 'Leave added successfully', 'result' => $leave], 200);
+        return response()->json(['success' => true, 'message' => 'Leave added successfully', 'result' => $leave],200);
     }
 
     public function changeStatus(Request $request)
@@ -103,8 +109,7 @@ class LeaveController extends Controller
         $leave->status = $request->input('status');
         $leave->save();
 
-        // You can return a response if needed
-        return response()->json(['message' => 'Leave status updated successfully']);
+        return response()->json(['success' => true, 'message' => 'Leave status updated successfully', 'result' => $leave],200);
     }
 
     public function leaveUpdate(Request $request)
@@ -121,12 +126,13 @@ class LeaveController extends Controller
             // 'requestto' => 'required',
         ]);
 
-        if ($validate->fails()) {
+        if($validate->fails())
+        {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation fails',
                 'errors' => $validate->errors()
-            ], 403);
+            ],403);
         }
         $balanceLeave = 22;
 
@@ -136,20 +142,25 @@ class LeaveController extends Controller
         $leaveDays = $startDate->diffInDays($endDate) + 1;
 
         if ($leaveDays > $balanceLeave) {
-            return response()->json(['success' => false, 'message' => 'Insufficient balance leave'], 403);
+            return response()->json(['success' => false, 'message' => 'Insufficient balance leave'],403);
         }
 
         $leave = Leave::find($request->input('id'));
-
+       
         // Update the balance leave for the employee
         if ($request->input('status') == 'approved' && $leave->status != 'approved') {
             $employee = Employee::find($leave->employee_id);
             if ($employee) {
-                if ($request->totalhours <= 2) {
+                if($request->totalhours <= 2)
+                {
                     $newBalance = $employee->total_leave - 0;
-                } else if ($request->totalhours <= 4) {
+                }
+                else if($request->totalhours <= 4)
+                {
                     $newBalance = $employee->total_leave - 0.5;
-                } else {
+                }
+                else
+                {
                     $newBalance = $employee->total_leave - $leaveDays;
                 }
                 $employee->update(['total_leave' => $newBalance]);
@@ -158,10 +169,10 @@ class LeaveController extends Controller
 
         $leave->update([
             'id'         => $request->input('id'),
-            'employee_id' => $request->input('employee_id'),
+            'employee_id'=> $request->input('employee_id'),
             'reason'     => $request->input('reason'),
-            'startdate'  => Carbon::parse($request->input('startdate')),
-            'enddate'    => Carbon::parse($request->input('enddate')),
+            'startdate'  => $request->input('startdate'),
+            'enddate'    => $request->input('enddate'),
             'leave_type' => $request->input('leave_type'),
             'time_from'  => Carbon::parse($request->input('time_from'))->format('H:i:s'),
             'time_to'    => Carbon::parse($request->input('time_to'))->format('H:i:s'),
@@ -174,7 +185,7 @@ class LeaveController extends Controller
             'success' => false,
             'message' => 'Leave updated successfully',
             'result' => $leave,
-        ], 200);
+        ],200);
     }
 
     public function leaveDestroy(Request $request)
@@ -185,7 +196,7 @@ class LeaveController extends Controller
             'success' => true,
             'message' => "Leave deleted successfully",
             'result' => $leave,
-        ], 200);
+        ],200);
     }
 
     public function updateStatus(Request $request)
