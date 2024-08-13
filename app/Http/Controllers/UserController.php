@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Employee;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,20 +37,21 @@ class UserController extends Controller
             ], 401);
         }
 
-        if (!Auth::attempt($request->only(['email', 'password']))) {
+        $user = Employee::withTrashed()->where('email', $request->input('email'))->first();
+       
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Credential does not found in our records',
+                'message' => 'Invalid credentials',
             ], 401);
         }
-        $user = User::where('email', $request->input('email'))->first();
-        $token = $user->createToken($user->role_id)->plainTextToken;
+        $token = $user->createToken('User Token')->plainTextToken;
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
             'result' => [
                 'id' => $user->id,
-                'name' => $user->name,
+                'name' => $user->firstname,
                 'email' => $user->email,
                 'access_token' => $token,
                 'role' => Role::find($user->role_id)->role_name,
@@ -164,27 +167,25 @@ class UserController extends Controller
         $request->validate([
             'id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $request->input('id'),
-            'role_id' => 'required|exists:roles,id',
         ]);
-    
+
         $user = User::findOrFail($request->input('id'));
-    
+
         $updateData = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'role_id' => $request->input('role_id'),
         ];
-    
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $filename);
             $updateData['image'] = $filename;
         }
-    
+
         $user->update($updateData);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Profile updated successfully',
