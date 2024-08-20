@@ -41,7 +41,7 @@ class EmployeeController extends Controller
             'password' => 'required'
         ]);
 
-        $filename = '';
+        $filename = null;
         if ($request->hasFile('profilepic')){
             $image = $request->file('profilepic');
             $filename = time() . '.' . $image->getClientOriginalExtension();

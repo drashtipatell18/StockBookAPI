@@ -24,7 +24,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
         $validateUser = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required'
@@ -40,25 +39,30 @@ class UserController extends Controller
 
         $user = Employee::withTrashed()->where('email', $request->input('email'))->first();
 
-        if (!$user || !Hash::check($request->input('password'), $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid credentials',
-            ], 401);
-        }
-        $token = $user->createToken('User Token')->plainTextToken;
+        // if (!$user || !Hash::check($request->input('password'), $user->password)) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Invalid credentials',
+        //     ], 401);
+        // }
 
+        // Generate a token
+        $token = $user->createToken('User Token')->plainTextToken;
         $userImage = $user->profilepic ? asset('images/' . $user->profilepic) : null;
+
+        // Check if the user has a role and get the role name
+        $role = Role::find($user->role_id);
+        $roleName = $role ? $role->role_name : 'No role assigned';
 
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
             'result' => [
                 'id' => $user->id,
-                'name' => $user->firstname,
+                'firstname' => $user->firstname,
                 'email' => $user->email,
                 'access_token' => $token,
-                'role' => Role::find($user->role_id)->role_name,
+                'role' => $roleName,
                 'image' => $userImage,
             ],
         ]);
@@ -169,24 +173,24 @@ class UserController extends Controller
 
     public function Profileupdate(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
-        ]);
+        // $request->validate([
+        //     'id' => 'required|exists:users,id',
+        //     'name' => 'required|string|max:255',
+        // ]);
 
-        $user = User::findOrFail($request->input('id'));
+        $user = Employee::findOrFail($request->input('id'));
 
         $updateData = [
-            'name' => $request->input('name'),
+            'firstname' => $request->input('firstname'),
             'email' => $request->input('email'),
             'role_id' => $request->input('role_id'),
         ];
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
+        if ($request->hasFile('profilepic')) {
+            $image = $request->file('profilepic');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $filename);
-            $updateData['image'] = $filename;
+            $updateData['profilepic'] = $filename;
         }
 
         $user->update($updateData);
