@@ -24,6 +24,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+
         $validateUser = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required'
@@ -38,7 +39,7 @@ class UserController extends Controller
         }
 
         $user = Employee::withTrashed()->where('email', $request->input('email'))->first();
-       
+
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
                 'success' => false,
@@ -46,6 +47,9 @@ class UserController extends Controller
             ], 401);
         }
         $token = $user->createToken('User Token')->plainTextToken;
+
+        $userImage = $user->profilepic ? asset('images/' . $user->profilepic) : null;
+
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
@@ -55,6 +59,7 @@ class UserController extends Controller
                 'email' => $user->email,
                 'access_token' => $token,
                 'role' => Role::find($user->role_id)->role_name,
+                'image' => $userImage,
             ],
         ]);
     }

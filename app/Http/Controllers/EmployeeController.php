@@ -42,12 +42,12 @@ class EmployeeController extends Controller
         ]);
 
         $filename = '';
-        if ($request->hasFile('image')){
-            $image = $request->file('image');
+        if ($request->hasFile('profilepic')){
+            $image = $request->file('profilepic');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move('images', $filename);
         }
-    
+
         $employee = Employee::create([
             'role_id'        => $request->input('role_id'),
             'firstname'      => $request->input('firstname'),
@@ -58,9 +58,11 @@ class EmployeeController extends Controller
             'phoneno'        => $request->input('phoneno'),
             'gender'         => $request->input('gender'),
             'salary'         => $request->input('salary'),
+            'profilepic' => $filename,
             'joiningdate'    => $request->input('joiningdate'),
             'aadhar_number'  => $request->input('aadhar_number'),
-            'password'       => Hash::make($request->input('password'))
+            'password'       => Hash::make($request->input('password')),
+
         ]);
 
         return response()->json([
