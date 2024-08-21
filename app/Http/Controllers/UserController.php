@@ -48,7 +48,7 @@ class UserController extends Controller
 
         // Generate a token
         $token = $user->createToken('User Token')->plainTextToken;
-        $userImage = $user->profilepic ? asset('images/' . $user->profilepic) : null;
+        $userImage = $user->profilepic ? $user->profilepic : null;
 
         // Check if the user has a role and get the role name
         $role = Role::find($user->role_id);
