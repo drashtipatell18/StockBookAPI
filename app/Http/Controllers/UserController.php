@@ -24,46 +24,31 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $validateUser = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required'
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-
-        if ($validateUser->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation fails',
-                'error' => $validateUser->errors()
-            ], 401);
+        $user = Employee::where('email', $credentials['email'])->first();
+        
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'User not found'], 404);
         }
-
-        $user = Employee::withTrashed()->where('email', $request->input('email'))->first();
-
-        // if (!$user || !Hash::check($request->input('password'), $user->password)) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Invalid credentials',
-        //     ], 401);
-        // }
-
-        // Generate a token
+    
+        // Check if the password matches
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return response()->json(['success' => false, 'message' => 'Invalid credentials'], 401);
+        }
+    
         $token = $user->createToken('User Token')->plainTextToken;
-        $userImage = $user->profilepic ? $user->profilepic : null;
-
-        // Check if the user has a role and get the role name
-        $role = Role::find($user->role_id);
-        $roleName = $role ? $role->role_name : 'No role assigned';
-
+    
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
             'result' => [
                 'id' => $user->id,
-                'firstname' => $user->firstname,
+                'name' => $user->firstname,
                 'email' => $user->email,
                 'access_token' => $token,
-                'role' => $roleName,
-                'image' => $userImage,
             ],
         ]);
     }
