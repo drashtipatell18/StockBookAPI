@@ -40,7 +40,10 @@ class UserController extends Controller
         }
     
         $token = $user->createToken('User Token')->plainTextToken;
-    
+        $userImage = $user->profilepic ? $user->profilepic : null;
+
+        $role = Role::find($user->role_id);
+        $roleName = $role ? $role->role_name : 'No role assigned';
         return response()->json([
             'success' => true,
             'message' => 'Login successfully',
@@ -49,6 +52,8 @@ class UserController extends Controller
                 'name' => $user->firstname,
                 'email' => $user->email,
                 'access_token' => $token,
+                'role' => $roleName,
+                'image' => $userImage,
             ],
         ]);
     }
